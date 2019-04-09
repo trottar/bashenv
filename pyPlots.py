@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-09 01:52:08 trottar"
+# Time-stamp: "2019-04-09 02:07:25 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -32,7 +32,6 @@ T1_arrhist = "histData1"
 # Retrieves the array data file and creates new leaves from this
 def pullArray():
     
-    print("\n\nUploading chained data file, this may take a few minutes.")    
     data = np.load("%s.npz" % rootName)
 
     T1 = data[T1_arrkey]
@@ -109,12 +108,14 @@ def cutRecursive(lastCut,newcut,plot,low,high):
 
     return[arrNew]    
     
-def densityPlot(x,y,title):
+def densityPlot(x,y,title,xlabel,ylabel):
 
     fig, ax = plt.subplots(tight_layout=True)
     
     hist = ax.hist2d(x, y,bins=40, norm=colors.LogNorm())
     plt.title(title, fontsize =16)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
     
 # Can call arrays to create your own plots
 def customPlots():
