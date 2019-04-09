@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-08 17:16:11 trottar"
+# Time-stamp: "2019-04-09 01:52:08 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -32,6 +32,7 @@ T1_arrhist = "histData1"
 # Retrieves the array data file and creates new leaves from this
 def pullArray():
     
+    print("\n\nUploading chained data file, this may take a few minutes.")    
     data = np.load("%s.npz" % rootName)
 
     T1 = data[T1_arrkey]
@@ -68,7 +69,7 @@ def recreateLeaves():
     print("Looing at TTree %s" % tree1)
     print("Enter n to see next plot and q to exit program\n")
     for key,arr in T1_leafdict.items():
-        # print key, "->", arr)
+        # print key, -
         if (np.all(arr == 0.)):
             print("Histogram %s: Empty array" % key)
         elif ( 2. > len(arr)) :
@@ -84,8 +85,6 @@ def recreateLeaves():
     print("\nTTree %s completed" % tree1)
 
 def cut(cut,plot,low,high):
-
-    [T1,T1_hist] = pullArray()
     
     [T1_leafdict] = dictionary()
 
@@ -97,8 +96,6 @@ def cut(cut,plot,low,high):
     return[arrPlot]
 
 def cutRecursive(lastCut,newcut,plot,low,high):
-
-    [T1,T1_hist] = pullArray()
     
     [T1_leafdict] = dictionary()
 
@@ -119,12 +116,8 @@ def densityPlot(x,y,title):
     hist = ax.hist2d(x, y,bins=40, norm=colors.LogNorm())
     plt.title(title, fontsize =16)
     
-        
 # Can call arrays to create your own plots
 def customPlots():
-
-    [T1_leafdict] = dictionary()
-    
     
 def main() :
 

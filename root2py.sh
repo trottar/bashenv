@@ -5,7 +5,7 @@
 # It will then create a new script for plotting these histograms in python
 # Note: This is for one tree at a time so will need to repeat for each. May change this in the future.
 # ================================================================
-# Time-stamp: "2019-04-08 16:07:44 trottar"
+# Time-stamp: "2019-04-09 01:54:36 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -30,7 +30,7 @@ echo "" >> ${NEWPY}
 echo "#" >> ${NEWPY}
 echo "# Description:This will read in the array data file that contains all the leave histogram information" >> ${NEWPY}
 echo "# ================================================================" >> ${NEWPY}
-echo "# Time-stamp: "2019-04-08 08:07:33 trottar"" >> ${NEWPY}
+echo "# Time-stamp: "2019-04-09 01:52:08 trottar"" >> ${NEWPY}
 echo "# ================================================================" >> ${NEWPY}
 echo "#" >> ${NEWPY}
 echo "# Author:  Richard L. Trotta III <trotta@cua.edu>" >> ${NEWPY}
@@ -44,17 +44,14 @@ echo "# Gets rid of matplot logging DEBUG messages" >> ${NEWPY}
 echo "plt_logger = logging.getLogger('matplotlib')" >> ${NEWPY}
 echo "plt_logger.setLevel(logging.WARNING)" >> ${NEWPY}
 echo "" >> ${NEWPY}
-echo "from ROOT import TCanvas, TPad, TFile, TPaveLabel, TPaveText, TTreeReader, TTreeReaderValue" >> ${NEWPY}
-echo "from ROOT import gROOT" >> ${NEWPY}
-echo "from rootpy.interactive import wait" >> ${NEWPY}
 echo "import matplotlib.pyplot as plt" >> ${NEWPY}
 echo "from matplotlib import interactive" >> ${NEWPY}
 echo "import numpy as np" >> ${NEWPY}
 echo "import sys" >> ${NEWPY}
 echo "" >> ${NEWPY}
-echo "rootName =  \"${ROOTNAME}\"" >> ${NEWPY}
+echo "rootName =  sys.argv[1]" >> ${NEWPY}
 echo "" >> ${NEWPY}
-echo "tree1 = \"${TTREE1}\"" >> ${NEWPY}
+echo "tree1 = sys.argv[2]" >> ${NEWPY}
 echo "" >> ${NEWPY}
 echo "T1_arrkey =  \"leafName1\"" >> ${NEWPY}
 echo "T1_arrhist = \"histData1\"" >> ${NEWPY}
@@ -62,7 +59,8 @@ echo "" >> ${NEWPY}
 echo "# Retrieves the array data file and creates new leaves from this" >> ${NEWPY}
 echo "def pullArray():" >> ${NEWPY}
 echo "    " >> ${NEWPY}
-echo "    data = np.load(\"%s.npz\" % rootName)" >> ${NEWPY}
+echo "    print(\"\n\nUploading chained data file, this may take a few minutes.\")    " >> ${NEWPY}
+echo "    data = np.load("%s.npz" % rootName)" >> ${NEWPY}
 echo "" >> ${NEWPY}
 echo "    T1 = data[T1_arrkey]" >> ${NEWPY}
 echo "    T1_hist = data[T1_arrhist]" >> ${NEWPY}
@@ -83,7 +81,7 @@ echo "def lookup(key):" >> ${NEWPY}
 echo "" >> ${NEWPY}
 echo "    [T1_leafdict] = dictionary()" >> ${NEWPY}
 echo "    " >> ${NEWPY}
-echo "    T_leafFound = T1_leafdict.get(key,\"Leaf name not found\")" >> ${NEWPY}
+echo "    T_leafFound = T1_leafdict.get(key,"Leaf name not found")" >> ${NEWPY}
 echo "" >> ${NEWPY}
 echo "    return[T_leafFound]" >> ${NEWPY}
 echo "" >> ${NEWPY}
@@ -98,7 +96,7 @@ echo "    i=1" >> ${NEWPY}
 echo "    print(\"Looing at TTree %s\" % tree1)" >> ${NEWPY}
 echo "    print(\"Enter n to see next plot and q to exit program\n\")" >> ${NEWPY}
 echo "    for key,arr in T1_leafdict.items():" >> ${NEWPY}
-echo "        # print key, "->", arr)" >> ${NEWPY}
+echo "        # print key, -" >> ${NEWPY}
 echo "        if (np.all(arr == 0.)):" >> ${NEWPY}
 echo "            print(\"Histogram %s: Empty array\" % key)" >> ${NEWPY}
 echo "        elif ( 2. > len(arr)) :" >> ${NEWPY}
@@ -114,8 +112,6 @@ echo "" >> ${NEWPY}
 echo "    print(\"\nTTree %s completed\" % tree1)" >> ${NEWPY}
 echo "" >> ${NEWPY}
 echo "def cut(cut,plot,low,high):" >> ${NEWPY}
-echo "" >> ${NEWPY}
-echo "    [T1,T1_hist] = pullArray()" >> ${NEWPY}
 echo "    " >> ${NEWPY}
 echo "    [T1_leafdict] = dictionary()" >> ${NEWPY}
 echo "" >> ${NEWPY}
@@ -127,8 +123,6 @@ echo "" >> ${NEWPY}
 echo "    return[arrPlot]" >> ${NEWPY}
 echo "" >> ${NEWPY}
 echo "def cutRecursive(lastCut,newcut,plot,low,high):" >> ${NEWPY}
-echo "" >> ${NEWPY}
-echo "    [T1,T1_hist] = pullArray()" >> ${NEWPY}
 echo "    " >> ${NEWPY}
 echo "    [T1_leafdict] = dictionary()" >> ${NEWPY}
 echo "" >> ${NEWPY}
@@ -149,12 +143,8 @@ echo "    " >> ${NEWPY}
 echo "    hist = ax.hist2d(x, y,bins=40, norm=colors.LogNorm())" >> ${NEWPY}
 echo "    plt.title(title, fontsize =16)" >> ${NEWPY}
 echo "    " >> ${NEWPY}
-echo "        " >> ${NEWPY}
 echo "# Can call arrays to create your own plots" >> ${NEWPY}
 echo "def customPlots():" >> ${NEWPY}
-echo "" >> ${NEWPY}
-echo "    [T1_leafdict] = dictionary()" >> ${NEWPY}
-echo "    " >> ${NEWPY}
 echo "    " >> ${NEWPY}
 echo "def main() :" >> ${NEWPY}
 echo "" >> ${NEWPY}

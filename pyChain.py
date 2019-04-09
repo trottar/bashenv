@@ -3,7 +3,7 @@
 #
 # Description:Chain a series of ROOT2PY data file (*.npz) into one data file for future use 
 # ================================================================
-# Time-stamp: "2019-04-09 01:22:58 trottar"
+# Time-stamp: "2019-04-09 01:48:30 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -61,8 +61,6 @@ def mergeKeys():
     [dictT1,dictT1_hist] = pullArray()
 
     T1_leafdicttmp = np.array([])
-
-    tmp = {}
     
     for i in range(0,numDatFiles+1):
         T1_leafdicttmp = np.append(T1_leafdicttmp, dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found"))))
