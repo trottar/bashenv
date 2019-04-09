@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-08 08:07:33 trottar"
+# Time-stamp: "2019-04-08 17:16:11 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -17,9 +17,6 @@ import logging
 plt_logger = logging.getLogger('matplotlib')
 plt_logger.setLevel(logging.WARNING)
 
-from ROOT import TCanvas, TPad, TFile, TPaveLabel, TPaveText, TTreeReader, TTreeReaderValue
-from ROOT import gROOT
-from rootpy.interactive import wait
 import matplotlib.pyplot as plt
 from matplotlib import interactive
 import numpy as np
