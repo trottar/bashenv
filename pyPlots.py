@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-09 02:07:25 trottar"
+# Time-stamp: "2019-04-11 16:14:07 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -11,6 +11,7 @@
 # Copyright (c) trottar
 #
 
+from __future__ import division
 import logging
 
 # Gets rid of matplot logging DEBUG messages
@@ -19,15 +20,17 @@ plt_logger.setLevel(logging.WARNING)
 
 import matplotlib.pyplot as plt
 from matplotlib import interactive
+from matplotlib import colors
 import numpy as np
+import math
 import sys
 
 rootName =  sys.argv[1]
 
 tree1 = sys.argv[2]
 
-T1_arrkey =  "leafName1"
-T1_arrhist = "histData1"
+T1_arrkey =  "leafName"
+T1_arrhist = "histData"
 
 # Retrieves the array data file and creates new leaves from this
 def pullArray():
@@ -106,13 +109,21 @@ def cutRecursive(lastCut,newcut,plot,low,high):
 
     arrNew = np.intersect1d(arrLast,arrPlot)
 
-    return[arrNew]    
+    return[arrNew]
+
+# Wider the binsize the fewer bins
+def setbin(leaf,binsize):
+
+    binwidth = (abs(leaf).max()-abs(leaf).min())/binsize
     
-def densityPlot(x,y,title,xlabel,ylabel):
+    bins = np.arange(min(leaf), max(leaf) + binwidth, binwidth)
+
+    return[bins]
+    
+def densityPlot(x,y,title,xlabel,ylabel,binx,biny):
 
     fig, ax = plt.subplots(tight_layout=True)
-    
-    hist = ax.hist2d(x, y,bins=40, norm=colors.LogNorm())
+    hist = ax.hist2d(x, y,bins=(setbin(x,binx)[0],setbin(y,biny)[0]), norm=colors.LogNorm())
     plt.title(title, fontsize =16)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)

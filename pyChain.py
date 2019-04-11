@@ -3,7 +3,7 @@
 #
 # Description:Chain a series of ROOT2PY data file (*.npz) into one data file for future use 
 # ================================================================
-# Time-stamp: "2019-04-09 01:48:30 trottar"
+# Time-stamp: "2019-04-11 03:50:33 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -14,11 +14,13 @@
 import numpy as np
 import sys
 
-# numDatFiles = sys.argv[1]
-numDatFiles = 1
+numDatFiles = sys.argv[1]
+# numDatFiles = 2
 
-T1_arrkey =  "leafName1"
-T1_arrhist = "histData1"
+chainName = "chain_"
+
+T1_arrkey =  "leafName"
+T1_arrhist = "histData"
 
 def progressBar(value, endvalue, bar_length):
 
@@ -34,8 +36,8 @@ def progressBar(value, endvalue, bar_length):
 def pullArray():
 
     rootDict = {
-        0 : "../ResearchNP/ROOTAnalysis/ROOTfiles/KaonLT_Luminosity_coin_replay_production_5158_100000",
-        1 : "../ResearchNP/ROOTAnalysis/ROOTfiles/KaonLT_Luminosity_coin_replay_production_5158_100000_test"
+        0 : "",
+        1 : ""
     }
 
     dictT1 = {}
@@ -44,7 +46,7 @@ def pullArray():
 
     j=0
     print("Gathering data files...")
-    for i in range(0,numDatFiles+1):
+    for i in range(0,numDatFiles):
         progressBar(j,numDatFiles, 50)
         rootName = rootDict[i]
         data = np.load("%s.npz" % rootName)
@@ -62,7 +64,7 @@ def mergeKeys():
 
     T1_leafdicttmp = np.array([])
     
-    for i in range(0,numDatFiles+1):
+    for i in range(0,numDatFiles):
         T1_leafdicttmp = np.append(T1_leafdicttmp, dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found"))))
         T1_leafdictmerge = [dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found"))), dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found")))]
         T1_leafdictnew = {}
@@ -79,7 +81,7 @@ def dictionary():
     
     for key,arr in T1_leafdictnew.items():
         tmp = []
-        for i in range(0,numDatFiles+1):
+        for i in range(0,numDatFiles):
              tmp = np.append(tmp, T1_leafdictnew[key][i])
         T1_leafdict[key] = tmp
     
@@ -88,8 +90,6 @@ def dictionary():
 def sendArraytoFile():
 
     [T1_leafdict] = dictionary()
-
-    chainName = "chain"
     
     T1 = np.array([])
     T1_hist = []

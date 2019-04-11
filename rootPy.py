@@ -3,7 +3,7 @@
 #
 # Descriptions:A light code that will convert the leaves of a ROOT file into arrays which can be easily manipulated and plotted in python
 # ================================================================
-# Time-stamp: "2019-04-09 23:43:13 trottar"
+# Time-stamp: "2019-04-11 01:34:59 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -84,7 +84,7 @@ def pullRootFiles():
     for n in np.nditer(T1):
     # for n in range(20,25): ##debugging
         # progressBar(j,len(T1),70)
-        print("\n%s" % str(T1[j]))
+        print("\n%s (%i/%i)" % (str(T1[j]),j,len(T1)))
         tmp = loopRoot(T1,Tree1,hist,j)
         hist = np.append(hist,[j,np.asarray(tmp[0])])
         j+=1
