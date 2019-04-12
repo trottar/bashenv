@@ -3,7 +3,7 @@
 #
 # Descriptions:A light code that will convert the leaves of a ROOT file into arrays which can be easily manipulated and plotted in python
 # ================================================================
-# Time-stamp: "2019-04-11 01:34:59 trottar"
+# Time-stamp: "2019-04-12 02:20:02 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -108,8 +108,12 @@ def loopRoot(key,ttree,hist,index):
     for e in ttree:
         if is_numeric(getattr(e,key[index])):
             progressBar(i,ttree.GetEntries(),50)
-            tmp.append(getattr(e,key[index]))
-            # print("%i::Hist:%s" % (i,str(tmp[i])))
+            if (getattr(e,key[index]) < 1e34):
+                tmp.append(getattr(e,key[index]))
+                # print("%i::Hist:%s" % (i,str(tmp[i])))
+            else:
+                tmp.append(0.)
+                # print("%i::Hist:%s" % (i,str(tmp[i])))
         else:
             print("Non-numeric data")
             break

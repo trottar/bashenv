@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-11 16:14:07 trottar"
+# Time-stamp: "2019-04-12 04:39:06 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -90,8 +90,8 @@ def cut(cut,plot,low,high):
     
     [T1_leafdict] = dictionary()
 
-    arrCut = T1_leafdict[cut]
-    arrPlot = T1_leafdict[plot]
+    arrCut = cut
+    arrPlot = plot
     
     arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
 
@@ -102,8 +102,8 @@ def cutRecursive(lastCut,newcut,plot,low,high):
     [T1_leafdict] = dictionary()
 
     arrLast = lastCut
-    arrCut = T1_leafdict[newcut]
-    arrPlot = T1_leafdict[plot]
+    arrCut = newcut
+    arrPlot = plot
     
     arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
 
@@ -111,22 +111,30 @@ def cutRecursive(lastCut,newcut,plot,low,high):
 
     return[arrNew]
 
-# Wider the binsize the fewer bins
-def setbin(leaf,binsize):
+def densityPlot(x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None):
 
+    fig, ax = plt.subplots(tight_layout=True)
+    if (xmin or xmax or ymin or ymax):
+        hist = ax.hist2d(x, y,bins=(setbin(x,binx,xmin,xmax)[0],setbin(y,biny,ymin,ymax)[0]), norm=colors.LogNorm())
+    else:
+        hist = ax.hist2d(x, y,bins=(setbin(x,binx)[0],setbin(y,biny)[0]), norm=colors.LogNorm())
+    plt.title(title, fontsize =16)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+
+# Wider the binsize the fewer bins
+def setbin(plot,binsize,xmin=None,xmax=None):
+    
+    if (xmin or xmax):
+        leaf = cut(plot,plot,xmin,xmax)[0]
+    else:
+        leaf = plot
+        
     binwidth = (abs(leaf).max()-abs(leaf).min())/binsize
     
     bins = np.arange(min(leaf), max(leaf) + binwidth, binwidth)
 
     return[bins]
-    
-def densityPlot(x,y,title,xlabel,ylabel,binx,biny):
-
-    fig, ax = plt.subplots(tight_layout=True)
-    hist = ax.hist2d(x, y,bins=(setbin(x,binx)[0],setbin(y,biny)[0]), norm=colors.LogNorm())
-    plt.title(title, fontsize =16)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
     
 # Can call arrays to create your own plots
 def customPlots():

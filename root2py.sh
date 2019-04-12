@@ -5,7 +5,7 @@
 # It will then create a new script for plotting these histograms in python
 # Note: This is for one tree at a time so will need to repeat for each. May change this in the future.
 # ================================================================
-# Time-stamp: "2019-04-11 16:14:49 trottar"
+# Time-stamp: "2019-04-12 04:40:01 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -135,8 +135,8 @@ while true; do
 	    echo "    " >> ${NEWPY}
 	    echo "    [T1_leafdict] = dictionary()" >> ${NEWPY}
 	    echo "" >> ${NEWPY}
-	    echo "    arrCut = T1_leafdict[cut]" >> ${NEWPY}
-	    echo "    arrPlot = T1_leafdict[plot]" >> ${NEWPY}
+	    echo "    arrCut = cut" >> ${NEWPY}
+	    echo "    arrPlot = plot" >> ${NEWPY}
 	    echo "    " >> ${NEWPY}
 	    echo "    arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]" >> ${NEWPY}
 	    echo "" >> ${NEWPY}
@@ -147,30 +147,39 @@ while true; do
 	    echo "    [T1_leafdict] = dictionary()" >> ${NEWPY}
 	    echo "" >> ${NEWPY}
 	    echo "    arrLast = lastCut" >> ${NEWPY}
-	    echo "    arrCut = T1_leafdict[newcut]" >> ${NEWPY}
-	    echo "    arrPlot = T1_leafdict[plot]" >> ${NEWPY}
+	    echo "    arrCut = newcut" >> ${NEWPY}
+	    echo "    arrPlot = plot" >> ${NEWPY}
 	    echo "    " >> ${NEWPY}
 	    echo "    arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]" >> ${NEWPY}
 	    echo "" >> ${NEWPY}
 	    echo "    arrNew = np.intersect1d(arrLast,arrPlot)" >> ${NEWPY}
 	    echo "" >> ${NEWPY}
-	    echo "    return[arrNew]    " >> ${NEWPY}
-	    echo "    " >> ${NEWPY}
-	    echo "def setbin(leaf,binsize):" >> ${NEWPY}
+	    echo "    return[arrNew]" >> ${NEWPY}
 	    echo "" >> ${NEWPY}
+	    echo "def densityPlot(x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None):" >> ${NEWPY}
+	    echo "" >> ${NEWPY}
+	    echo "    fig, ax = plt.subplots(tight_layout=True)" >> ${NEWPY}
+	    echo "    if (xmin or xmax or ymin or ymax):" >> ${NEWPY}
+	    echo "        hist = ax.hist2d(x, y,bins=(setbin(x,binx,xmin,xmax)[0],setbin(y,biny,ymin,ymax)[0]), norm=colors.LogNorm())" >> ${NEWPY}
+	    echo "    else:" >> ${NEWPY}
+	    echo "        hist = ax.hist2d(x, y,bins=(setbin(x,binx)[0],setbin(y,biny)[0]), norm=colors.LogNorm())" >> ${NEWPY}
+	    echo "    plt.title(title, fontsize =16)" >> ${NEWPY}
+	    echo "    plt.xlabel(xlabel)" >> ${NEWPY}
+	    echo "    plt.ylabel(ylabel)" >> ${NEWPY}
+	    echo "" >> ${NEWPY}
+	    echo "# Wider the binsize the fewer bins" >> ${NEWPY}
+	    echo "def setbin(plot,binsize,xmin=None,xmax=None):" >> ${NEWPY}
+	    echo "    " >> ${NEWPY}
+	    echo "    if (xmin or xmax):" >> ${NEWPY}
+	    echo "        leaf = cut(plot,plot,xmin,xmax)[0]" >> ${NEWPY}
+	    echo "    else:" >> ${NEWPY}
+	    echo "        leaf = plot" >> ${NEWPY}
+	    echo "        " >> ${NEWPY}
 	    echo "    binwidth = (abs(leaf).max()-abs(leaf).min())/binsize" >> ${NEWPY}
 	    echo "    " >> ${NEWPY}
 	    echo "    bins = np.arange(min(leaf), max(leaf) + binwidth, binwidth)" >> ${NEWPY}
 	    echo "" >> ${NEWPY}
 	    echo "    return[bins]" >> ${NEWPY}
-	    echo "" >> ${NEWPY}
-	    echo "def densityPlot(x,y,title,xlabel,ylabel,binx,biny):" >> ${NEWPY}
-	    echo "" >> ${NEWPY}
-	    echo "    fig, ax = plt.subplots(tight_layout=True)" >> ${NEWPY}
-	    echo "    hist = ax.hist2d(x, y,bins=(setbin(x,binx)[0],setbin(y,biny)[0]), norm=colors.LogNorm())" >> ${NEWPY}
-	    echo "    plt.title(title, fontsize =16)" >> ${NEWPY}
-	    echo "    plt.xlabel(xlabel)" >> ${NEWPY}
-	    echo "    plt.ylabel(ylabel)" >> ${NEWPY}
 	    echo "    " >> ${NEWPY}
 	    echo "# Can call arrays to create your own plots" >> ${NEWPY}
 	    echo "def customPlots():" >> ${NEWPY}
