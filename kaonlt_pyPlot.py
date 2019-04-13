@@ -155,6 +155,18 @@ def cut(key):
     }
     
     return[cutDict.get(key,"Leaf name not found")]
+
+def selectCut():
+    
+    cuts1 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum"]
+    
+    cuts2 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum","P_gtr_beta"]
+
+    cuts3 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum","P_gtr_beta","CTime_eKCoinTime_ROC1"]
+
+    cuts4 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum","P_gtr_beta","CTime_eKCoinTime_ROC1-KaonCut"]
+
+    return[cuts1,cuts2,cuts3,cuts4]
     
 def densityPlot(x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None,cuts=None):
 
@@ -184,7 +196,7 @@ def setbin(plot,binsize,xmin=None,xmax=None):
         
     binwidth = (abs(leaf).max()-abs(leaf).min())/binsize
     
-    bins = np.arange(min(leaf), max(leaf) + binwidth, binwidth)
+    bins = np.arange(min(leaf), max(leaf) + binwidth/10, binwidth)
 
     return[bins]
 
@@ -227,8 +239,11 @@ MandelT                = lookup("P.kin.secondary.MandelT")[0]
 fEvtType               = lookup("fEvtHdr.fEvtType")[0]
 pEDTM                  = lookup("T.coin.pEDTM_tdcTime")[0]
 missMass               = np.square((emiss*emiss)-(pmiss*pmiss))
+    
 
-def customPlots():
+def kaonPlots():
+
+    [cuts1,cuts2,cuts3,cuts4] = selectCut()
     
     # arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
     # Plots
@@ -236,19 +251,15 @@ def customPlots():
     h1mmissK = ax.hist(missMass,bins=setbin(missMass,100,0.,2.0)[0],histtype='step', stacked=True, fill=False )
     plt.title("missMassK", fontsize =16)
     
-    ###################
-    cuts1 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum"]
+    ################### cut 1
 
     h2ROC1_Coin_Beta_noID_kaon = densityPlot(CTime_eKCoinTime_ROC1, P_gtr_beta, 'Beta vs Coin Time','Coin Time (ns)', '$beta$', 100, 100, -40., 40., 0., 2., cuts1)
 
-    ###################
-    cuts2 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum","P_gtr_beta"]
-    # cuts2 = ["P_aero_npeSum", "P_hgcer_npeSum","P_gtr_beta"]
+    ################### cut 2
 
     h1missKcut_CT = densityPlot(CTime_eKCoinTime_ROC1, missMass, 'Missing Mass vs Coin Time','Coin Time (ns)','Missing Mass (GeV)', 100, 100, -10., 10., 0., 2., cuts2)
     
-    ###################
-    cuts3 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum","P_gtr_beta","CTime_eKCoinTime_ROC1"]
+    ################### cut 3
 
     h2ROC1_Coin_Beta_kaon = densityPlot(CTime_eKCoinTime_ROC1, P_gtr_beta, 'Beta vs Coin Time','Coin Time (ns)', '$beta$',100,100,-40.,40.,0.,2., cuts3)
     
@@ -268,8 +279,7 @@ def customPlots():
     h1epsilon = ax.hist(applyCuts(epsilon,cuts3)[0],bins=setbin(epsilon,100,0.,1.)[0],histtype='step', stacked=True, fill=False )
     plt.title("Epsilon", fontsize =16)
     
-    ###################
-    cuts4 = ["H_cal_etotnorm", "H_cer_npeSum", "P_cal_etotnorm", "H_gtr_dp", "P_gtr_dp", "P_gtr_th", "P_gtr_ph", "H_gtr_th", "H_gtr_ph", "P_aero_npeSum", "P_hgcer_npeSum","P_gtr_beta","CTime_eKCoinTime_ROC1-KaonCut"]
+    ################### cut 4
 
     f, ax = plt.subplots()
     h1mmissK_rand = ax.hist(applyCuts(missMass,cuts4)[0],bins=setbin(missMass,100,0.8,1.4)[0],histtype='step', stacked=True, fill=False )
@@ -278,10 +288,35 @@ def customPlots():
     f, ax = plt.subplots()
     h1mmissK_remove = ax.hist(applyCuts(missMass,cuts4)[0],bins=setbin(missMass,100,0.8,1.4)[0],histtype='step', stacked=True, fill=False )
     plt.title("missMassK_remove", fontsize =16)
+
+def kaonSelection():
+    
+    [cuts1,cuts2,cuts3,cuts4] = selectCut()
+
+    scale = 1./12.
+
+    h1mmissK = missMass
+
+    h1mmissK_cut = applyCuts(missMass,cuts1)[0]
+    
+    h1mmissK_randScale = applyCuts(missMass,cuts4)[0]*scale
+
+    # Make the two arrays the same shape by filling the rest of array with zeros
+    h1mmissK_rand = np.zeros_like(h1mmissK_cut)
+    h1mmissK_rand[np.indices(h1mmissK_randScale.shape)] = h1mmissK_randScale
+    
+    h1mmissK_remove = h1mmissK_cut - h1mmissK_rand
+
+    f, ax = plt.subplots()
+    # ax.hist(h1mmissK_remove,bins=setbin(missMass,200,0.,2.0)[0],histtype='step', stacked=True, fill=False )
+    ax.hist(h1mmissK_cut,bins=setbin(missMass,200,0.,2.0)[0],histtype='step', stacked=True, fill=False )
+    plt.title("missMassK_remove", fontsize =16)
+    plt.xlim(0,1.4)
     
 def main() :
 
-    customPlots()
+    # kaonPlots()
+    kaonSelection()
     # recreateLeaves()
     plt.show()
     
