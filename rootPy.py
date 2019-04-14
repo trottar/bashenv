@@ -3,7 +3,7 @@
 #
 # Descriptions:A light code that will convert the leaves of a ROOT file into arrays which can be easily manipulated and plotted in python
 # ================================================================
-# Time-stamp: "2019-04-12 17:44:53 trottar"
+# Time-stamp: "2019-04-13 17:49:35 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -76,7 +76,7 @@ def pullRootFiles():
     T1string = "Tree1 = f.%s" % tree1
     exec(T1string)
     
-    hist = np.empty(shape=(1,1))
+    hist = np.empty(shape=(1,1), dtype=np.float128)
 
     start = time. time()
     

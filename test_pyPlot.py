@@ -23,13 +23,19 @@ import warnings
 import numpy as np
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+import matplotlib.backends.backend_pdf
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from scipy import stats
 from matplotlib import interactive
 from matplotlib import colors
-import time
-import math
-import sys
+from sys import path
+import time,math,sys
 # np.set_printoptions(threshold=sys.maxsize)
+
+# My class function
+sys.path.insert(0,'python')
+from test_rootPy import pyPlot
 
 # rootName =  "KaonLT_coin_replay_production_8005_-1"
 rootName =  "KaonLT_coin_replay_production_8010_-1"
@@ -40,9 +46,9 @@ tree1 = "T"
 T1_arrkey =  "leafName"
 T1_arrhist = "histData"
 
-# My class function
-from test_rootPy import pyPlot
 p = pyPlot(rootName,tree1,T1_arrkey,T1_arrhist)
+
+pdf = matplotlib.backends.backend_pdf.PdfPages("%s.pdf" % rootName)
 
 def cut(key):
 
@@ -92,7 +98,7 @@ def selectCut():
 
     return[cuts1,cuts2,cuts3,cuts4]
 
-def densityPlot(x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None,cuts=None):
+def densityPlot(x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None,cuts=None,figure=None,sub=None):
 
     if cuts:
         xcut  = applyCuts(x,cuts)[0]
@@ -100,15 +106,43 @@ def densityPlot(x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,
     else:
         xcut = x
         ycut = y
-        
-    fig, ax = plt.subplots(tight_layout=True)
+    if sub or figure:
+        ax = figure.add_subplot(sub)
+    else:
+        fig, ax = plt.subplots(tight_layout=True,figsize=(11.69,8.27))
     if (xmin or xmax or ymin or ymax):
         hist = ax.hist2d(xcut, ycut,bins=(p.setbin(x,binx,xmin,xmax)[0],p.setbin(y,biny,ymin,ymax)[0]), norm=colors.LogNorm())
     else:
         hist = ax.hist2d(xcut, ycut,bins=(p.setbin(x,binx)[0],p.setbin(y,biny)[0]), norm=colors.LogNorm())
-    plt.title(title, fontsize =16)
+    plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+
+def polarPlot(theta,r,title,thetalabel,rlabel,bintheta,binr,thetamin=None,thetamax=None,rmin=None,rmax=None,cuts=None,figure=None,sub=None):
+
+    if cuts:
+        thetacut  = applyCuts(theta,cuts)[0]
+        rcut = applyCuts(r,cuts)[0]
+    else:
+        thetacut = theta
+        rcut = r
+    xy = np.vstack([thetacut, rcut])
+    z = stats.gaussian_kde(xy)(xy)
+    idx = z.argsort()
+    x, y, z = np.array(thetacut)[idx], np.array(rcut)[idx], z[idx]
+    if sub or figure:
+        ax = figure.add_subplot(sub,polar=True)
+    else:
+        ax = plt.subplot(111,polar=True)
+    if (thetamin or thetamax or rmin or rmax):
+        hist = ax.scatter(thetacut, rcut, c=z, edgecolor='', alpha = 0.75)
+    else:
+        hist = ax.scatter(thetacut, rcut, c=z, edgecolor='', alpha = 0.75)
+    ax.grid(True)
+    plt.title(title)
+    plt.xlabel(thetalabel)
+    plt.ylabel(rlabel)
+    # plt.colorbar()
 
 # Define phyisics data
 CTime_eKCoinTime_ROC1  = p.lookup("CTime.eKCoinTime_ROC1")[0] - 43
@@ -139,7 +173,6 @@ fEvtType               = p.lookup("fEvtHdr.fEvtType")[0]
 pEDTM                  = p.lookup("T.coin.pEDTM_tdcTime")[0]
 missMass               = np.square((emiss*emiss) - (pmiss*pmiss))
 # missMass               = np.square(((emiss*emiss) + np.square((0.13957018*0.13957018) + (P_gtr_p*P_gtr_p)) - np.square((0.493677*0.493677) + (P_gtr_p*P_gtr_p)) - (pmiss*pmiss)))
-# missMass               = np.square(((emiss*emiss) + np.square((0.13957018*0.13957018) + (P_gtr_p*P_gtr_p)) - np.square((0.493677*0.493677) + (P_gtr_p*P_gtr_p)) - (pmiss*pmiss)), dtype=np.float128)
 
 def kaonPlots():
 
@@ -147,17 +180,16 @@ def kaonPlots():
 
     # arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
     
-    f, ax = plt.subplots()
-    hemiss = ax.hist(emiss,bins=p.setbin(emiss,200,0.,2.0)[0],histtype='step', stacked=True, fill=False )
+    f = plt.figure(figsize=(11.69,8.27))
+    # f.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.7, wspace=0.3, hspace=0.3)
+    ax = f.add_subplot(131)
+    hemiss = ax.hist(emiss,bins=p.setbin(emiss,200,0.,2.0)[0],histtype='step', alpha=0.5, stacked=True, fill=True )
     plt.title("emiss", fontsize =16)
-
-    f, ax = plt.subplots()
-    hpmiss = ax.hist(pmiss,bins=p.setbin(pmiss,200,0.,2.0)[0],histtype='step', stacked=True, fill=False )
+    ax = f.add_subplot(132)
+    hpmiss = ax.hist(pmiss,bins=p.setbin(pmiss,200,0.,2.0)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
     plt.title("pmiss", fontsize =16)
-    
-    # Plots
-    f, ax = plt.subplots()
-    h1mmissK = ax.hist(missMass,bins=p.setbin(missMass,200,0.002,2.0)[0],histtype='step', stacked=True, fill=False )
+    ax = f.add_subplot(133)    
+    h1mmissK = ax.hist(missMass,bins=p.setbin(missMass,200,0.002,2.0)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
     plt.title("missMassK", fontsize =16)
     
     ################### cut 1
@@ -170,32 +202,34 @@ def kaonPlots():
     
     ################### cut 3
 
-    h2ROC1_Coin_Beta_kaon = densityPlot(CTime_eKCoinTime_ROC1, P_gtr_beta, 'Beta vs Coin Time','Coin Time (ns)', '$beta$',200,200,-40.,40.,0.,2., cuts3)
-    
-    h2SHMSK_kaon_cut = densityPlot(P_aero_npeSum, P_hgcer_npeSum, 'HGCER vs AERO','AERO (npe)','HGCER (npe)',200,200,0.,25.,0.,10., cuts3)
+    f = plt.figure(figsize=(11.69,8.27))
+    f.tight_layout()
+    h2ROC1_Coin_Beta_kaon = densityPlot(CTime_eKCoinTime_ROC1, P_gtr_beta, 'Beta vs Coin Time','Coin Time (ns)', '$beta$',200,200,-40.,40.,0.,2., cuts3, figure=f, sub=131)
+    h2SHMSK_kaon_cut = densityPlot(P_aero_npeSum, P_hgcer_npeSum, 'HGCER vs AERO','AERO (npe)','HGCER (npe)',200,200,0.,25.,0.,10., cuts3, figure=f, sub=132)
+    h2SHMSK_pion_cut = densityPlot(P_cal_etotnorm, P_hgcer_npeSum, 'HGCER vs CAL','CAL (npe)','HGCER (npe)',200,200,0.,2.,0.,30., cuts3, figure=f, sub=133)
 
-    h2SHMSK_pion_cut = densityPlot(P_cal_etotnorm, P_hgcer_npeSum, 'HGCER vs CAL','CAL (npe)','HGCER (npe)',200,200,0.,2.,0.,30., cuts3)
-
-    f, ax = plt.subplots()
-    h1mmissK_cut = ax.hist(applyCuts(missMass,cuts3)[0],bins=p.setbin(missMass,200,0.,2.0)[0],histtype='step', stacked=True, fill=False )
-    plt.title("missMassK_cut", fontsize =16)
-    
-    h2WvsQ2 = densityPlot(Q2, W, 'Q2 vs W','W','Q2',200,200,0.,7.,0.,4., cuts3)
-
-    h2tvsph_q = densityPlot(ph_q, -MandelT, 'Phi t plot','','',200,200,-3.14,3.14,0.,1., cuts3)
-
-    f, ax = plt.subplots()
-    h1epsilon = ax.hist(applyCuts(epsilon,cuts3)[0],bins=p.setbin(epsilon,100,0.,1.)[0],histtype='step', stacked=True, fill=False )
+    f = plt.figure(figsize=(11.69,8.27))
+    f.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.35, hspace=0.35)
+    ax = f.add_subplot(224)
+    h1mmissK_cut = ax.hist(applyCuts(missMass,cuts3)[0],bins=p.setbin(missMass,200,0.,2.0)[0], histtype='step',  alpha=0.5, stacked=True, fill=True )
+    plt.title("missMassK_cut", fontsize =16)    
+    h2WvsQ2 = densityPlot(Q2, W, 'Q2 vs W','W','Q2',200,200,0.,7.,0.,4., cuts3, figure=f, sub=221)
+    h2tvsph_q = polarPlot(ph_q, -MandelT, '','','',200,200,-3.14,3.14,0.,1., cuts3, figure=f, sub=223)
+    ax = f.add_subplot(222)
+    h1epsilon = ax.hist(applyCuts(epsilon,cuts3)[0],bins=p.setbin(epsilon,100,0.,1.)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
     plt.title("Epsilon", fontsize =16)
+
     
     ################### cut 4
 
-    f, ax = plt.subplots()
-    h1mmissK_rand = ax.hist(applyCuts(missMass,cuts4)[0],bins=p.setbin(missMass,200,0.,2.)[0],histtype='step', stacked=True, fill=False )
-    plt.title("missMassK_rand", fontsize =16)
     
-    f, ax = plt.subplots()
-    h1mmissK_remove = ax.hist(applyCuts(missMass,cuts4)[0],bins=p.setbin(missMass,200,0.,2.)[0],histtype='step', stacked=True, fill=False )
+    f = plt.figure(figsize=(11.69,8.27))
+    f.tight_layout()
+    ax = f.add_subplot(121)
+    h1mmissK_rand = ax.hist(applyCuts(missMass,cuts4)[0],bins=p.setbin(missMass,200,0.,2.)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
+    plt.title("missMassK_rand", fontsize =16)
+    ax = f.add_subplot(122)
+    h1mmissK_remove = ax.hist(applyCuts(missMass,cuts4)[0],bins=p.setbin(missMass,200,0.,2.)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
     plt.title("missMassK_remove", fontsize =16)
 
 def kaonSelection():
@@ -216,11 +250,15 @@ def kaonSelection():
     
     h1mmissK_remove = h1mmissK_cut - h1mmissK_rand
 
-    f, ax = plt.subplots()
-    # ax.hist(h1mmissK_remove,bins=p.setbin(missMass,200,0.,2.0)[0],histtype='step', stacked=True, fill=False )
-    ax.hist(h1mmissK_cut,bins=p.setbin(missMass,200,0.,2.0)[0],histtype='step', stacked=True, fill=False )
+    f, ax = plt.subplots(tight_layout=True,figsize=(11.69,8.27))
+    # ax.hist(h1mmissK_remove,bins=p.setbin(missMass,200,0.,2.0)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
+    ax.hist(h1mmissK_cut,bins=p.setbin(missMass,200,0.,2.0)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
     plt.title("missMassK_remove", fontsize =16)
     plt.xlim(0,1.4)
+
+    for f in xrange(1, plt.figure().number):
+        pdf.savefig(f)
+    pdf.close()
     
 def main() :
 
