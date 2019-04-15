@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-12 22:39:11 trottar"
+# Time-stamp: "2019-04-14 18:07:56 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -39,7 +39,7 @@ class pyPlot:
         self.T1_arrkey = T1_arrkey
         self.T1_arrhist = T1_arrhist
         
-    def progressBar(value, endvalue, bar_length):
+    def progressBar(self,value, endvalue, bar_length):
 
         percent = float(value) / endvalue
         arrow = '=' * int(round(percent * bar_length)-1) + '>'
@@ -62,13 +62,7 @@ class pyPlot:
     def dictionary(self):
             
         [T1,T1_hist] = self.pullArray()
-            
-        # print("Gathering data and removing non-physics...")
-        # for i in range(0,len(T1_hist)):
-        #     progressBar(i,len(T1_hist),50)
-        #     for j  in range(0,len(T1_hist[i])):
-        #         if (T1_hist[i][j] < 1e36):
-        #             T1_leafdict = dict(zip(T1, T1_hist))
+        
         T1_leafdict = dict(zip(T1, T1_hist))
         
         return[T1_leafdict]

@@ -171,26 +171,38 @@ pmiss                  = p.lookup("P.kin.secondary.pmiss")[0]
 MandelT                = p.lookup("P.kin.secondary.MandelT")[0]
 fEvtType               = p.lookup("fEvtHdr.fEvtType")[0]
 pEDTM                  = p.lookup("T.coin.pEDTM_tdcTime")[0]
+
+# P_gtr_p_square         = np.array([])
+# for i in range(0,len(P_gtr_p)):
+#     p.progressBar(i,len(P_gtr_p),50)
+#     if 0 < P_gtr_p[i] < 10:
+#         P_gtr_p_square         = np.append(P_gtr_p_square,P_gtr_p[i]*P_gtr_p[i])
+#     else:
+#         P_gtr_p_square         = np.append(P_gtr_p_square,0)
+        
 missMass               = np.square((emiss*emiss) - (pmiss*pmiss))
-# missMass               = np.square(((emiss*emiss) + np.square((0.13957018*0.13957018) + (P_gtr_p*P_gtr_p)) - np.square((0.493677*0.493677) + (P_gtr_p*P_gtr_p)) - (pmiss*pmiss)))
+
+# mm = sqrt((Emiss+Ep-Ek)^2-pmiss)
+# missMass               = np.power((emiss) + np.square((0.93828*0.93828) + P_gtr_p_square) - np.square((0.493677*0.493677) + P_gtr_p_square),2) - (pmiss*pmiss)
 
 def kaonPlots():
 
     [cuts1,cuts2,cuts3,cuts4] = selectCut()
-
-    # arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
     
     f = plt.figure(figsize=(11.69,8.27))
     # f.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.7, wspace=0.3, hspace=0.3)
-    ax = f.add_subplot(131)
+    ax = f.add_subplot(221)
     hemiss = ax.hist(emiss,bins=p.setbin(emiss,200,0.,2.0)[0],histtype='step', alpha=0.5, stacked=True, fill=True )
     plt.title("emiss", fontsize =16)
-    ax = f.add_subplot(132)
+    ax = f.add_subplot(222)
     hpmiss = ax.hist(pmiss,bins=p.setbin(pmiss,200,0.,2.0)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
     plt.title("pmiss", fontsize =16)
-    ax = f.add_subplot(133)    
-    h1mmissK = ax.hist(missMass,bins=p.setbin(missMass,200,0.002,2.0)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
+    ax = f.add_subplot(223)    
+    h1mmissK = ax.hist(missMass,bins=p.setbin(missMass,200,.8,1.8)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
     plt.title("missMassK", fontsize =16)
+    ax = f.add_subplot(224)    
+    hp = ax.hist(P_gtr_p,bins=p.setbin(P_gtr_p,200,0.,10.)[0],histtype='step',  alpha=0.5, stacked=True, fill=True )
+    plt.title("P_gtr_p", fontsize =16)
     
     ################### cut 1
 
