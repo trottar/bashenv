@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-14 18:07:56 trottar"
+# Time-stamp: "2019-04-22 15:34:40 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -27,9 +27,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 import matplotlib.pyplot as plt
 from matplotlib import interactive
 from matplotlib import colors
-import time
-import math
-import sys
+import time, math, sys
 # np.set_printoptions(threshold=sys.maxsize)
 
 class pyPlot:
@@ -105,20 +103,6 @@ class pyPlot:
                 i+=1
 
         print("\nTTree %s completed" % self.tree1)
-
-    def applyCuts(self,leaf,cuts=None):
-    
-        if cuts:
-            applycut = 'tmp['
-            i=0
-            while i < (len(cuts)-1):
-                applycut += 'cut("%s")[0] & ' % cuts[i]
-                i+=1
-            applycut += 'cut("%s")[0]]' % cuts[len(cuts)-1]
-        else:
-            applycut = 'tmp'    
-        
-        return[applycut]
     
     def setbin(self,plot,numbin,xmin=None,xmax=None):
         
@@ -131,7 +115,7 @@ class pyPlot:
         
         bins = np.arange(min(leaf), max(leaf) + binwidth, binwidth)
 
-        return[bins]
+        return [bins]
 
     def fixBin(self,cut,plot,low,high):
     
@@ -142,7 +126,7 @@ class pyPlot:
         
         arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
 
-        return[arrPlot]
+        return [arrPlot]
 
     def densityPlot(self,x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None,cuts=None):
 
@@ -161,3 +145,28 @@ class pyPlot:
             plt.title(title, fontsize =16)
             plt.xlabel(xlabel)
             plt.ylabel(ylabel)
+            
+class pyCut:
+    def __init__(self, cutDict):
+        self.cutDict = cutDict
+        
+    def cut(self,key):
+            
+        return[self.cutDict.get(key,"Leaf name not found")]
+
+    def applyCuts(self,leaf,cuts=None):
+        
+        if cuts:
+            tmp = leaf
+            applycut = 'tmp['
+            i=0
+            while i < (len(cuts)-1):
+                applycut += 'self.cut("%s")[0] & ' % cuts[i]
+                i+=1
+            applycut += 'self.cut("%s")[0]]' % cuts[len(cuts)-1]
+            tmp = eval(applycut)
+        else:
+            print 'No cuts applied to %s' % leaf
+            tmp = leaf
+        
+        return [tmp]
