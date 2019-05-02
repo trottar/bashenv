@@ -3,7 +3,7 @@
 #
 # Description:This will read in the array data file that contains all the leave histogram information
 # ================================================================
-# Time-stamp: "2019-04-22 15:34:40 trottar"
+# Time-stamp: "2019-04-22 16:55:25 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -29,6 +29,7 @@ from matplotlib import interactive
 from matplotlib import colors
 import time, math, sys
 # np.set_printoptions(threshold=sys.maxsize)
+
 
 class pyPlot:
     def __init__(self,rootName,tree1,T1_arrkey,T1_arrhist):
@@ -127,25 +128,7 @@ class pyPlot:
         arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
 
         return [arrPlot]
-
-    def densityPlot(self,x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None,cuts=None):
-
-        if cuts:
-            xcut  = self.applyCuts(x,cuts)[0]
-            ycut = self.applyCuts(y,cuts)[0]
-        else:
-            xcut = x
-            ycut = y
-        
-        fig, ax = plt.subplots(tight_layout=True)
-        if (xmin or xmax or ymin or ymax):
-            hist = ax.hist2d(xcut, ycut,bins=(self.setbin(xcut,binx,xmin,xmax)[0],self.setbin(ycut,biny,ymin,ymax)[0]), norm=colors.LogNorm())
-        else:
-            hist = ax.hist2d(xcut, ycut,bins=(self.setbin(xcut,binx)[0],self.setbin(ycut,biny)[0]), norm=colors.LogNorm())
-            plt.title(title, fontsize =16)
-            plt.xlabel(xlabel)
-            plt.ylabel(ylabel)
-            
+    
 class pyCut:
     def __init__(self, cutDict):
         self.cutDict = cutDict
@@ -170,3 +153,49 @@ class pyCut:
             tmp = leaf
         
         return [tmp]
+
+    # def densityPlot(self,x,y,title,xlabel,ylabel,binx,biny,xmin=None,xmax=None,ymin=None,ymax=None,cuts=None,figure=None,sub=None):
+
+    #     if cuts:
+    #         xcut  = self.applyCuts(x,cuts)[0]
+    #         ycut = self.applyCuts(y,cuts)[0]
+    #     else:
+    #         xcut = x
+    #         ycut = y
+    #     if sub or figure:
+    #         ax = figure.add_subplot(sub)
+    #     else:
+    #         fig, ax = plt.subplots(tight_layout=True,figsize=(11.69,8.27))
+    #     if (xmin or xmax or ymin or ymax):
+    #         hist = ax.hist2d(xcut, ycut,bins=(p.setbin(x,binx,xmin,xmax)[0],p.setbin(y,biny,ymin,ymax)[0]), norm=colors.LogNorm())
+    #     else:
+    #         hist = ax.hist2d(xcut, ycut,bins=(p.setbin(x,binx)[0],p.setbin(y,biny)[0]), norm=colors.LogNorm())
+    #     plt.title(title)
+    #     plt.xlabel(xlabel)
+    #     plt.ylabel(ylabel)
+
+    # def polarPlot(self,theta,r,title,thetalabel,rlabel,bintheta,binr,thetamin=None,thetamax=None,rmin=None,rmax=None,cuts=None,figure=None,sub=None):
+
+    #     if cuts:
+    #         thetacut  = self.applyCuts(theta,cuts)[0]
+    #         rcut = self.applyCuts(r,cuts)[0]
+    #     else:
+    #         thetacut = theta
+    #         rcut = r
+    #     xy = np.vstack([thetacut, rcut])
+    #     z = stats.gaussian_kde(xy)(xy)
+    #     idx = z.argsort()
+    #     x, y, z = np.array(thetacut)[idx], np.array(rcut)[idx], z[idx]
+    #     if sub or figure:
+    #         ax = figure.add_subplot(sub,polar=True)
+    #     else:
+    #         ax = plt.subplot(111,polar=True)
+    #     if (thetamin or thetamax or rmin or rmax):
+    #         hist = ax.scatter(thetacut, rcut, c=z, edgecolor='', alpha = 0.75)
+    #     else:
+    #         hist = ax.scatter(thetacut, rcut, c=z, edgecolor='', alpha = 0.75)
+    #     ax.grid(True)
+    #     plt.title(title)
+    #     plt.xlabel(thetalabel)
+    #     plt.ylabel(rlabel)
+    #     # plt.colorbar()    
