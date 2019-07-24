@@ -34,6 +34,9 @@ alias       ls      ls --color=always
 alias       root    'root -l'
 alias       pip     'sudo python -m pip'
 alias       paint   'sudo inkscape'
+alias       install 'sudo apt-get install'
+alias       calc    'gnome-genius'
+alias       remote  'teamviewer'
 
 alias word libreoffice 
 alias snapshot shutter
@@ -54,15 +57,18 @@ alias howto "evince $ORG/commands.pdf"
 alias server "source $HOME/bin/run_server.csh"
 alias send "sh $HOME/bin/copyFiles.sh"
 alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh"
+alias cpu-info "inxi -Fxzd"
 # alias root2py "cd $HOME/bin/;sh root2py.sh \!:1;"
-alias ROOT2PY "source $HOME/bin/root2py.sh"
+alias ROOT2PY "$HOME/bin/root2py.sh"
 alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/eic_SF;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
+alias memleak "valgrind --tool=memcheck --leak-check=yes \!:1"
+# alias rootleak "valgrind --leak-check=full --show-leak-kinds=all --tool=memcheck --track-origins=yes --suppressions=$ROOTSYS/etc/valgrind-root.supp root.exe -l -b -q \!:1"
 
-alias runplan-8.2 "evince $HOME/Documents/runplan_8p2gev.pdf"
-alias runplan-6.2 "evince $HOME/Documents/runplan_6p2gev.pdf"
-alias runplan-3.8 "evince $HOME/Documents/runplan_3p8gev.pdf"
-alias runplan-4.9 "evince $HOME/Documents/runplan_4p9gev.pdf"
-alias runplan-10.6 "evince $HOME/Documents/runplan_10p6gev.pdf"
+alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
+alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
+alias runplan-3.8 "evince $HOME/Documents/runplans/runplan_3p8gev.pdf"
+alias runplan-4.9 "evince $HOME/Documents/runplans/runplan_4p9gev.pdf"
+alias runplan-10.6 "evince $HOME/Documents/runplans/runplan_10p6gev.pdf"
 
 # Number of commands to save in history list
 set history=50
