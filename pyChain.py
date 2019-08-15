@@ -3,7 +3,7 @@
 #
 # Description:Chain a series of ROOT2PY data file (*.npz) into one data file for future use 
 # ================================================================
-# Time-stamp: "2019-04-11 03:50:33 trottar"
+# Time-stamp: "2019-07-23 22:33:29 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -62,10 +62,10 @@ def mergeKeys():
 
     [dictT1,dictT1_hist] = pullArray()
 
-    T1_leafdicttmp = np.array([])
+    T1_leafdicttmp = []
     
     for i in range(0,numDatFiles):
-        T1_leafdicttmp = np.append(T1_leafdicttmp, dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found"))))
+        T1_leafdicttmp.append(dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found"))))
         T1_leafdictmerge = [dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found"))), dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found")))]
         T1_leafdictnew = {}
         for k in dict(zip(dictT1.get("T1_%i" % i, "Leaf not found"), dictT1_hist.get("T1__hist_%i" % i, "Leaf not found"))).iterkeys():
@@ -82,7 +82,7 @@ def dictionary():
     for key,arr in T1_leafdictnew.items():
         tmp = []
         for i in range(0,numDatFiles):
-             tmp = np.append(tmp, T1_leafdictnew[key][i])
+             tmp.append(T1_leafdictnew[key][i])
         T1_leafdict[key] = tmp
     
     return[T1_leafdict]
@@ -91,11 +91,11 @@ def sendArraytoFile():
 
     [T1_leafdict] = dictionary()
     
-    T1 = np.array([])
+    T1 = []
     T1_hist = []
 
     for key,arr in T1_leafdict.items():
-        T1 = np.append(T1,key)
+        T1.append(key)
         T1_hist.append(arr)
         
     print("\n\nLoading chained data to file, this may take a few minutes.")
