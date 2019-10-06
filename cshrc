@@ -33,6 +33,7 @@ alias       la      'ls -la'
 alias       ls      ls --color=always
 alias       root    'root -l'
 alias       pip     'sudo python -m pip'
+alias       pip3    'sudo python3 -m pip'
 alias       paint   'sudo inkscape'
 alias       install 'sudo apt-get install'
 alias       calc    'gnome-genius'
