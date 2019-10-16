@@ -3,7 +3,7 @@
 #
 # Descriptions:A light code that will convert the leaves of a ROOT file into arrays which can be easily manipulated and plotted in python
 # ================================================================
-# Time-stamp: "2019-04-13 17:49:35 trottar"
+# Time-stamp: "2019-04-15 04:06:01 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -20,7 +20,7 @@ import sys
 
 rootName = sys.argv[1]
 
-inputROOT = "%s.root" % rootName
+inputROOT = "/work/hallc/kaon/trottar/hallc_replay/ROOTfiles/%s.root" % rootName
 
 tree1 = sys.argv[2]    
 

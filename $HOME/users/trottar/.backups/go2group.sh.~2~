@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+GROUP=$1
+
+DIRGROUP=/group/c-kaonlt
+
+DIRHOME=/group/c-kaonlt/USER/$USER/hallc_replay_kaonlt/
+
+
+if [[$1 -eq ""]]; then
+    cd $DIRGROUP
+elif [[$1 == "trottar"]]; then
+    cd $DIRHOME
+else
+    echo "Invalid entry"
+    echo $?
+fi

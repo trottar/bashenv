@@ -87,9 +87,7 @@ alias howto "evince $ORG/commands.pdf"
 # alias server "source $HOME/bin/bin/run_server.csh"
 alias send "sh $HOME/bin/bin/copyFiles.sh"
 alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh"
-# alias root2py "cd $HOME/bin/;sh root2py.sh \!:1;"
-alias ROOT2PY "source $HOME/bin/root2py.sh"
-alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/eic_SF;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
+alias group "source $HOME/bin/bin/go2group.csh \!:1"
 
 # alias runplan-8.2 "evince $HOME/Documents/runplan_8p2gev.pdf"
 # alias runplan-6.2 "evince $HOME/Documents/runplan_6p2gev.pdf"
@@ -106,7 +104,7 @@ alias __git_current_branch 'git rev-parse --abbrev-ref HEAD >& /dev/null && echo
 alias precmd 'set prompt="\n%{\033[35m%}Branch-`__git_current_branch`\n%{\033[34m%}%m%{\033[34m%}:%n %{\033[36m%}%~%{\033[00m%}> "'
 
 # Assure working jlab software
-source /site/12gev_phys/softenv.csh 2.0
+source /site/12gev_phys/softenv.csh 2.1
 
 echo
 echo

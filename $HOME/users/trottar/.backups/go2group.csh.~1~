@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+GROUP=$1
+
+DIRGROUP=/group/c-kaonlt
+DIRHOME=/group/c-kaonlt/USER/$USER/hallc_replay_kaonlt/
+
+if [[ $1 -eq "group" ]]; then
+    echo "Going to $DIRGROUP"
+    cd $DIRGROUP
+    exec bash
+elif [[ $1 -eq "home" ]]; then
+    echo "Going to $DIRHOME"
+    cd $DIRHOME
+else
+    echo "Invalid entry"
+    echo $?
+fi
