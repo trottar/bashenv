@@ -61,11 +61,13 @@ alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh
 alias cpu-info "inxi -Fxzd"
 # alias root2py "cd $HOME/bin/;sh root2py.sh \!:1;"
 alias ROOT2PY "$HOME/bin/root2py.sh"
-alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
+# alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
+alias load "gnome-terminal --geometry=81x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
 alias memleak "valgrind --tool=memcheck --leak-check=yes \!:1"
 # alias rootleak "valgrind --leak-check=full --show-leak-kinds=all --tool=memcheck --track-origins=yes --suppressions=$ROOTSYS/etc/valgrind-root.supp root.exe -l -b -q \!:1"
 alias pdf-shrink '~/Programs/pdfsizeopt/pdfsizeopt \!:1 \!:2'
-alias updatepip 'sh $HOME/bin/upgradePython.sh'
+alias updatepip 'sh ~/bin/upgradePython.sh'
+alias anki '~/Programs/anki-2.1.15-linux-amd64/bin/anki'
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
