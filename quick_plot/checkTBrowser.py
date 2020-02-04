@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2020-01-30 22:26:41 trottar"
+# Time-stamp: "2020-02-04 09:07:45 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -45,10 +45,10 @@ def main() :
         user_search = raw_input("Search for leaf name: ")
         search(user_search)
         while True:
-            again = raw_input("Would you like to search again? ").lower()
-            if again.startswith('n'):
+            again = raw_input("Press enter to continue search, otherwise type quit... ").lower()
+            if again.startswith('q'):
                 return # exit the whole function
-            elif again.startswith('y'):
+            elif again.startswith(''):
                 break # exit just this inner loop
     
 if __name__=='__main__': main()
