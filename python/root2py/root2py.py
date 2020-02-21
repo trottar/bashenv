@@ -1,28 +1,25 @@
 #! /usr/bin/python
 
 #
-# Description: Script to quickly convert ROOT leaf histograms into python matplotlib, just need to
+# Description:This will read in the array data file that contains all the leave histogram information
 # include...
 '''
 
 # My class function
-sys.path.insert(0,'/home/trottar/bin/python/')
-from root2numpy import pyPlot
+sys.path.insert(0,'/home/{USER}/bin/python/root2py/')
+from root2py import pyPlot, pyBranch, pyBin
 
 rootName = "Path/to/root/file"
 treeName = <NameofTree>
-leafName =  {"<HistoVarName>": "<LeafName>",
-}
+inputLeaf = <LeafName>
 
-print leafName
-p = pyPlot(rootName,tree1,leafName)
-
-rootName =  p.newDict()
-locals().update(rootName)
+tree = up.open(rootName)[treeName]
+hist_var = branch.findBranch(branch,inputLeaf) # For branch variable
+hist_var = tree.array(inputLeaf)
 
 '''
 # ================================================================
-# Time-stamp: "2020-01-30 15:39:49 trottar"
+# Time-stamp: "2019-08-14 21:10:09 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -30,73 +27,54 @@ locals().update(rootName)
 # Copyright (c) trottar
 #
 
+
 from __future__ import division
 import logging
-import uproot as up
+
+# Gets rid of matplot logging DEBUG messages
+plt_logger = logging.getLogger('matplotlib')
+plt_logger.setLevel(logging.WARNING)
+
+# Suppresses unwanted numpy warning
+import warnings
 import numpy as np
-import time, math, sys, time, os
-    
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+import matplotlib.pyplot as plt
+from matplotlib import interactive
+from matplotlib import colors
+import uproot as up
+import time, math, sys
+
+# garbage collector
+import gc
+gc.collect()
+
 class pyDict(dict):
     
-    def __init__(self,inputROOT,inputTree,inputLeaf):
-        self.inputROOT = inputROOT
+    def __init__(self,inputTree):
         self.inputTree = inputTree
-        self.inputLeaf = inputLeaf
-        
-        start = time. time()
-        
-        # Opens root file and gets tree info
-        print "Looking at root file:", inputROOT
-        print "\nLooking at leaf", inputLeaf.values(), "in tree", inputTree
-        rfile = up.open(inputROOT)
-        Tree = rfile[inputTree]
-    
-        print("\nConverting root file to numpy arrays...\n")
-    
-        '''
 
-        Convert a TTree in a ROOT file into a NumPy structured array
-        T1_array = Tree.arrays(["T.coin.*", "CTime.*","P.*","H.*"])
-        T1_array = Tree.arrays(["T.coin.*"])
-        
-        Below are all the leaves needed to set the reference times for each detector
+class pyBranch(pyDict):
 
-        '''
-        
-        leafName = Tree.arrays(list(inputLeaf.values()))
-        
-        histName = list(inputLeaf.keys())
-
-        leafName = leafName.items()
-
+    def findBranch(self,inputBranch, inputLeaf):
+        tree = self.inputTree
+        branch = tree.array(inputBranch)
+        branch  = zip(*branch) # Match elements to proper leaves
+        leafList = tree[inputBranch].interpretation.fromdtype.descr
         i=0
-        for key,value in inputLeaf.items():
-            # Check if float (i.e. histogram)
-            if type(leafName[i][1][0]) is np.dtype('>f8').type or np.dtype('>f8').type: 
-                inputLeaf[key] = leafName[i][1]
-                print inputLeaf[key]
+        for name,typ in leafList:
+            if name == inputLeaf:
+                leaf = name
+                leafVal = i
+                break
             i+=1
+        leafHist = branch[leafVal]
 
-        # Redefine dictionary, replacing leaf names with histogram values
-        self._newDict = inputLeaf
+        return np.array(leafHist)
 
-        end = time. time()
-        print("\nTime to pull root file: %0.1f seconds" % (end-start))
-        
-    def newDict(self):
-        return self._newDict
-        
-class pyPlot(pyDict):
+class pyBin():
 
-    def progressBar(self,value, endvalue, bar_length):
-
-        percent = float(value) / endvalue
-        arrow = '=' * int(round(percent * bar_length)-1) + '>'
-        spaces = ' ' * (bar_length - len(arrow))
-        
-        sys.stdout.write(" \r[{0}] {1}%".format(arrow + spaces, int(round(percent * 100))))
-        sys.stdout.flush()
-                
     def setbin(self,plot,numbin,xmin=None,xmax=None):
         
         if (xmin or xmax):
@@ -118,6 +96,11 @@ class pyPlot(pyDict):
         arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
 
         return arrPlot
+    
+class pyPlot(pyDict):
+    
+    def __init__(self, cutDict):
+        self.cutDict = cutDict
         
     def cut(self,key):
             
@@ -130,16 +113,50 @@ class pyPlot(pyDict):
             applycut = 'tmp['
             i=0
             while i < (len(cuts)-1):
-                applycut += 'self.cut("%s") & ' % cuts[i]
+                applycut += 'self.cut("%s")[0] & ' % cuts[i]
                 i+=1
-            applycut += 'self.cut("%s")]' % cuts[len(cuts)-1]
+            applycut += 'self.cut("%s")[0]]' % cuts[len(cuts)-1]
             tmp = eval(applycut)
         else:
             print 'No cuts applied to %s' % leaf
             tmp = leaf
         
         return tmp
+
+    def progressBar(self,value, endvalue, bar_length):
+
+        percent = float(value) / endvalue
+        arrow = '=' * int(round(percent * bar_length)-1) + '>'
+        spaces = ' ' * (bar_length - len(arrow))
+        
+        sys.stdout.write(" \r[{0}] {1}%".format(arrow + spaces, int(round(percent * 100))))
+        sys.stdout.flush()
+
+        # Recreates the histograms of the root file
+    def recreateLeaves(self):
+                
+        binwidth = 1.0
     
+        i=1
+        print("Looing at TTree %s" % self.tree1)
+        print("Enter n to see next plot and q to exit program\n")
+        # for key,arr in self.T1_leafdict.dictionary().items():
+        for key,arr in self.T1_leafdict.items():
+            # print key, -
+            if (np.all(arr == 0.)):
+                print("Histogram %s: Empty array" % key)
+            elif ( 2. > len(arr)) :
+                print("Histogram %s: Only one element" % key)
+            else:
+                binwidth = (abs(arr).max())/100
+                plt.figure()
+                plt.hist(arr,bins=np.arange(min(arr), max(arr) + binwidth, binwidth),histtype='step', stacked=True, fill=False )
+                plt.title(key, fontsize =16)
+                foutname = 'fig_'+key+'.png'
+                i+=1
+
+        print("\nTTree %s completed" % self.tree1)
+
     def densityPlot(self,x,y,title,xlabel,ylabel,binx,biny,pyMisc,
                     xmin=None,xmax=None,ymin=None,ymax=None,cuts=None,figure=None,ax=None,layered=True):
         if cuts:
@@ -201,4 +218,3 @@ class pyPlot(pyDict):
         plt.xlabel(thetalabel)
         plt.ylabel(rlabel)
         # plt.colorbar()    
-

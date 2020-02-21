@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2020-01-29 10:37:07 trottar"
+# Time-stamp: "2020-02-15 13:42:37 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -250,6 +250,9 @@ def search(term):
         "Done by the DC. There are hardware and software efficiencies. For a track to be reconstructed at least 5 of the DC planes need to have registered a hit. If there are more than 25 hits in the chamber with in the time window, the tracking is rejected. The tracking efficiencies are dependent on the rate of particles in the spectrometer (since higher rates increases the probability of multiple hits).",
 
         "time window" :
+        "",
+
+        "discriminator" :
         "",
 
         "test" :

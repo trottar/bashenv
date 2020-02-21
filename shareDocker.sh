@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2020-01-29 18:57:43 trottar"
+# Time-stamp: "2020-02-12 15:41:56 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -15,4 +15,6 @@ SHAREDFILE=$1
 
 eval 'google-chrome http://127.0.0.1:8888/'
 
-eval 'sudo docker run --rm -it -p 8888:8888 -v $SHAREDFILE:/home/eicuser/epw/share eicdev/epic'
+eval 'google-chrome http://127.0.0.1:6080/'
+
+eval 'sudo docker run -it -p8888:8888 -p 6080:6080  -v $SHAREDFILE:/home/eicuser/epw/share electronioncollider/epic-gui'
