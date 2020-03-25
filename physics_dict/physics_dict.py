@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2020-02-15 13:42:37 trottar"
+# Time-stamp: "2020-03-13 12:53:59 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -254,6 +254,12 @@ def search(term):
 
         "discriminator" :
         "",
+
+        "sullivan process" :
+        "The electron DIS off the meson cloud of a nucleon target.",
+
+        "roman pot" :
+        "Proton-on-target (pot). The name of a technique (and of the relevant device) used in accelerator physics. Named after its implementation by the CERN Rome group in the early 1970s, it is an important tool to measure the total cross section of two particle beams in a collider. Roman pots are located as close to the beamline as possible, to capture the accelerated particles which scatter by very small angles.",
 
         "test" :
         Math('\Delta'),

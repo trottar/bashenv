@@ -99,7 +99,7 @@ class pyBin():
     
 class pyPlot(pyDict):
     
-    def __init__(self, cutDict):
+    def __init__(self, cutDict=None):
         self.cutDict = cutDict
         
     def cut(self,key):
@@ -118,7 +118,7 @@ class pyPlot(pyDict):
             applycut += 'self.cut("%s")[0]]' % cuts[len(cuts)-1]
             tmp = eval(applycut)
         else:
-            print 'No cuts applied to %s' % leaf
+            print('No cuts applied to %s' % leaf)
             tmp = leaf
         
         return tmp
@@ -166,7 +166,7 @@ class pyPlot(pyDict):
             xcut = x
             ycut = y
         if ax or figure:
-            print ""
+            print("")
         else:
             fig, ax = plt.subplots(tight_layout=True,figsize=(11.69,8.27))
         if (xmin or xmax or ymin or ymax):
@@ -206,7 +206,7 @@ class pyPlot(pyDict):
         x, y, z = np.array(thetacut)[idx], np.array(rcut)[idx], z[idx]
         if ax or figure:
             # ax = figure.add_subplot(sub,polar=True)
-            print ""
+            print("")
         else:
             fig,ax = plt.subplot(111,polar=True)
         if (thetamin or thetamax or rmin or rmax):

@@ -2,6 +2,9 @@
 setenv CLICOLOR "true"
 setenv LS_COLORS "di=1;36:fi=01:ex=92:ln=7;106:or=31:*.png=33:*.jpg=33:*.pdf=97"
 
+# Run bash profile
+source ~/.bash_profile
+
 # Defined file locations
 setenv ORG $HOME/ResearchNP/org_file
 
@@ -11,259 +14,16 @@ setenv hallc_replay $HOME/Analysis/hallc_replay
 
 setenv replay_kaonlt $HOME/Analysis/hallc_replay_lt
 
-setenv ROOTFILES $HOME/ResearchNP/ROOTfiles/
+setenv ROOTFILES $HOME/ResearchNP/ROOTfiles
+
+setenv PROGRAMS $HOME/Programs/my_programs
 
 #######################################################################################################
 # EJPM package for g4e and ejana ######################################################################
 #######################################################################################################
-
-# =============================
-# vgm
-# =============================
-setenv VGM_DIR "/home/trottar/ResearchNP/gemc/eic/vgm/vgm-v4-5"
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/vgm/vgm-v4-5/lib"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/vgm/vgm-v4-5/lib"
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/vgm/vgm-v4-5/lib64"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/vgm/vgm-v4-5/lib64"
-endif
-
-# =============================
-# g4e
-# =============================
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/g4e/g4e-dev"
-else
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/g4e/g4e-dev":${PATH}
-endif
-
-# Make sure PYTHONPATH is set
-if ( ! $?PYTHONPATH ) then
-    setenv PYTHONPATH "/home/trottar/ResearchNP/gemc/eic/g4e/g4e-dev/python"
-else
-    setenv PYTHONPATH "/home/trottar/ResearchNP/gemc/eic/g4e/g4e-dev/python":${PYTHONPATH}
-endif
-setenv G4E_HOME "/home/trottar/ResearchNP/gemc/eic/g4e/g4e-dev"
-setenv G4E_MACRO_PATH "/home/trottar/ResearchNP/gemc/eic/g4e/g4e-dev"
-
-# =============================
-# geant
-# =============================
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/geant/geant-v10.6.0/bin"
-else
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/geant/geant-v10.6.0/bin":${PATH}
-endif
-source /home/trottar/ResearchNP/gemc/eic/geant/geant-v10.6.0/bin/geant4.csh /home/trottar/ResearchNP/gemc/eic/geant/geant-v10.6.0/bin
-
-# =============================
-# eic-smear
-# =============================
-setenv EIC_SMEAR_HOME "/home/trottar/ResearchNP/gemc/eic/eic-smear/eic-smear-master"
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/eic-smear/eic-smear-master/lib"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/eic-smear/eic-smear-master/lib"
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/eic-smear/eic-smear-master/lib64"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/eic-smear/eic-smear-master/lib64"
-endif
-
-# =============================
-# ejana
-# =============================
-
-# Make sure JANA_PLUGIN_PATH is set
-if ( ! $?JANA_PLUGIN_PATH ) then
-    setenv JANA_PLUGIN_PATH "/home/trottar/ResearchNP/gemc/eic/ejana/dev/compiled/plugins"
-else
-    setenv JANA_PLUGIN_PATH "/home/trottar/ResearchNP/gemc/eic/ejana/dev/compiled/plugins":${JANA_PLUGIN_PATH}
-endif
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/ejana/dev/compiled/bin"
-else
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/ejana/dev/compiled/bin":${PATH}
-endif
-
-# =============================
-# jana
-# =============================
-setenv JANA_HOME "/home/trottar/ResearchNP/gemc/eic/jana/jana-master"
-
-# Make sure JANA_PLUGIN_PATH is set
-if ( ! $?JANA_PLUGIN_PATH ) then
-    setenv JANA_PLUGIN_PATH "$JANA_HOME/plugins"
-else
-    setenv JANA_PLUGIN_PATH ${JANA_PLUGIN_PATH}:"$JANA_HOME/plugins"
-endif
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "$JANA_HOME/bin"
-else
-    setenv PATH "$JANA_HOME/bin":${PATH}
-endif
-
-# =============================
-# hepmc
-# =============================
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/hepmc/hepmc-HEPMC_02_06_09/bin"
-else
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/hepmc/hepmc-HEPMC_02_06_09/bin":${PATH}
-endif
-setenv HEPMC_DIR "/home/trottar/ResearchNP/gemc/eic/hepmc/hepmc-HEPMC_02_06_09"
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/hepmc/hepmc-HEPMC_02_06_09/lib"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/hepmc/hepmc-HEPMC_02_06_09/lib"
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/hepmc/hepmc-HEPMC_02_06_09/lib64"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/hepmc/hepmc-HEPMC_02_06_09/lib64"
-endif
-
-# =============================
-# clhep
-# =============================
-setenv CLHEP "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master"
-setenv CLHEP_BASE_DIR "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master"
-setenv CLHEP_INCLUDE_DIR "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master/include"
-setenv CLHEP_LIB_DIR "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master/lib"
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master/bin"
-else
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master/bin":${PATH}
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master/lib"
-else
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/clhep/clhep-master/lib":${LD_LIBRARY_PATH}
-endif
-
-# =============================
-# fastjet
-# =============================
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/fastjet/fastjet-3.3.3/bin"
-else
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/fastjet/fastjet-3.3.3/bin":${PATH}
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/fastjet/fastjet-3.3.3/lib"
-else
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/fastjet/fastjet-3.3.3/lib":${LD_LIBRARY_PATH}
-endif
-
-# =============================
-# rave
-# =============================
-setenv RAVEPATH "/home/trottar/ResearchNP/gemc/eic/rave/rave-master"
-
-# Make sure CMAKE_PREFIX_PATH is set
-if ( ! $?CMAKE_PREFIX_PATH ) then
-    setenv CMAKE_PREFIX_PATH "/home/trottar/ResearchNP/gemc/eic/rave/rave-master/share/rave"
-else
-    setenv CMAKE_PREFIX_PATH "/home/trottar/ResearchNP/gemc/eic/rave/rave-master/share/rave":${CMAKE_PREFIX_PATH}
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/rave/rave-master/lib"
-else
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/rave/rave-master/lib":${LD_LIBRARY_PATH}
-endif
-
-# =============================
-# root
-# =============================
-if ( -f /opt/jlab_software/2.2/Linux__LinuxMint19.3-x86_64-gcc7/root/6.12.06/bin/thisroot.csh ) then
-    source /opt/jlab_software/2.2/Linux__LinuxMint19.3-x86_64-gcc7/root/6.12.06/bin/thisroot.csh
-endif
-
-# =============================
-# easy-profiler
-# =============================
-
-# Make sure CMAKE_PREFIX_PATH is set
-if ( ! $?CMAKE_PREFIX_PATH ) then
-    setenv CMAKE_PREFIX_PATH "/home/trottar/ResearchNP/gemc/eic/easy-profiler/easy-profiler-v2.1.0/lib/cmake/easy_profiler"
-else
-    setenv CMAKE_PREFIX_PATH "/home/trottar/ResearchNP/gemc/eic/easy-profiler/easy-profiler-v2.1.0/lib/cmake/easy_profiler":${CMAKE_PREFIX_PATH}
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/easy-profiler/easy-profiler-v2.1.0/lib"
-else
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/easy-profiler/easy-profiler-v2.1.0/lib":${LD_LIBRARY_PATH}
-endif
-
-# Make sure PATH is set
-if ( ! $?PATH ) then
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/easy-profiler/easy-profiler-v2.1.0/bin"
-else
-    setenv PATH "/home/trottar/ResearchNP/gemc/eic/easy-profiler/easy-profiler-v2.1.0/bin":${PATH}
-endif
-
-# =============================
-# genfit
-# =============================
-setenv GENFIT "/home/trottar/ResearchNP/gemc/eic/genfit/genfit-master"
-setenv GENFIT_DIR "/home/trottar/ResearchNP/gemc/eic/genfit/genfit-master"
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/genfit/genfit-master/lib"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/genfit/genfit-master/lib"
-endif
-
-# Make sure LD_LIBRARY_PATH is set
-if ( ! $?LD_LIBRARY_PATH ) then
-    setenv LD_LIBRARY_PATH "/home/trottar/ResearchNP/gemc/eic/genfit/genfit-master/lib64"
-else
-    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:"/home/trottar/ResearchNP/gemc/eic/genfit/genfit-master/lib64"
-endif
-
 # env command also regenerated files:
-# /home/trottar/.local/share/ejpm/env.sh 
-# /home/trottar/.local/share/ejpm/env.csh 
+# /home/trottar/.local/share/ejpm/env.csh
+
 
 #######################################################################################################
 
@@ -322,16 +82,21 @@ alias cpu-info "inxi -Fxzd"
 # alias root2py "cd $HOME/bin/;sh root2py.sh \!:1;"
 alias ROOT2PY "$HOME/bin/root2py.sh"
 # alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
-alias load "gnome-terminal --geometry=81x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2;google-chrome &"
+alias load "gnome-terminal --geometry=81x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2;google-chrome &"
 alias memleak "valgrind --tool=memcheck --leak-check=yes \!:1"
 # alias rootleak "valgrind --leak-check=full --show-leak-kinds=all --tool=memcheck --track-origins=yes --suppressions=$ROOTSYS/etc/valgrind-root.supp root.exe -l -b -q \!:1"
 alias pdf-shrink '~/Programs/pdfsizeopt/pdfsizeopt \!:1 \!:2'
 alias updatepip 'sh ~/bin/upgradePython.sh'
 alias anki '~/Programs/anki-2.1.15-linux-amd64/bin/anki'
-alias jlab_docker 'google-chrome http://127.0.0.1:8888/;google-chrome http://127.0.0.1:6080/;docker run -it -p8888:8888 -p 6080:6080 electronioncollider/epic'
+alias jlab_docker 'google-chrome http://127.0.0.1:8888/;docker run -it -p8888:8888 electronioncollider/epic'
 alias share_jlab_docker 'sh ~/bin/shareDocker.sh \!:1'
+alias ssh_docker 'google-chrome http://127.0.0.1:8888/;docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --rm -it -p8888:8888 --user 1000 electronioncollider/epic bash'
+alias pull_docker 'docker pull electronioncollider/epic'
 alias plot "$HOME/bin/quick_plot/plotRoot.sh"
 alias update_calendar "sh $ORG/google_calendar/update_calendar.sh"
+alias email "sh $PROGRAMS/google_email/send_gmail.sh"
+alias clion "sh ~/Programs/clion-*/bin/clion.sh"
+alias ejpm_env "source $HOME/.local/share/ejpm/env.csh"
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
@@ -354,6 +119,9 @@ alias precmd 'set prompt="\n%{\033[35m%}Branch-`__git_current_branch`\n%{\033[34
 # Assure working jlab software
 setenv JLAB_ROOT /opt/jlab_software
 source $JLAB_ROOT/2.2/ce/jlab.csh
+
+setenv ROOTSYS $HOME/ResearchNP/gemc/eic/root/root-v6-20-00/
+source $ROOTSYS/bin/thisroot.csh
 
 echo
 echo
