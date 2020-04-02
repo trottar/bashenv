@@ -3,7 +3,7 @@
 set GROUP=$1
 
 set DIRGROUP=/group/c-kaonlt
-set DIRHOME=/group/c-kaonlt/USERS/$USER/hallc_replay_kaonlt/
+set DIRHOME=/group/c-kaonlt/USERS/$USER/hallc_replay_lt/
 
 if ( $1 == "group" ) then
     echo "Going to $DIRGROUP"
