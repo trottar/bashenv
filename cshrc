@@ -18,6 +18,8 @@ setenv ROOTFILES $HOME/ResearchNP/ROOTfiles
 
 setenv PROGRAMS $HOME/Programs/my_programs
 
+setenv ESCALATE $HOME/ResearchNP/gemc/escalate/escalate
+
 #######################################################################################################
 # EJPM package for g4e and ejana ######################################################################
 #######################################################################################################
@@ -56,6 +58,7 @@ alias       remote  'teamviewer'
 alias       docker  'sudo docker'
 alias       chrome  'google-chrome \!:1'
 alias       git-all  'find ~/ -name ".git"'
+alias       pyIndent 'sudo autopep8 -i \!:1'
 
 alias word libreoffice 
 alias snapshot shutter
@@ -97,6 +100,7 @@ alias update_calendar "sh $ORG/google_calendar/update_calendar.sh"
 alias email "sh $PROGRAMS/google_email/send_gmail.sh"
 alias clion "sh ~/Programs/clion-*/bin/clion.sh"
 alias ejpm_env "source $HOME/.local/share/ejpm/env.csh"
+alias escalate_env "source $ESCALATE/escalate.csh"
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
