@@ -76,7 +76,6 @@ class pyBranch(pyDict):
     
 class pyRoot():
 
-    # Save arrays,lists,etc. to root file as histograms
     def py2root(self,inputDict,rootName):
         try:
             tmp = ""
@@ -126,25 +125,17 @@ class pyPlot(pyDict):
 
         return arrPlot
 
-    # Create a working dictionary for cuts
-    def w_dict(self,cuts):
-
-        inputDict = self.cutDict
-        subDict = inputDict[cuts]
-        cut_arr = [evt for evt in subDict]
-        return cut_arr
-            
+        
     def cut(self,key,cuts=None):
 
         if cuts:
             inputDict = self.cutDict
-            subDict = inputDict[cuts]
-            value = subDict.get(key,"Leaf name not found")
-            return value
+            cutval = inputDict[cuts]
+            tmp = cutval.get(key,"Leaf name not found")
+            return tmp
         else:
             return self.cutDict.get(key,"Leaf name not found")
 
-    # Old version of apply cuts
     def applyCuts(self,leaf,cuts=None):
         
         if cuts:
@@ -162,15 +153,15 @@ class pyPlot(pyDict):
         
         return tmp
 
-    # New version of applying cuts
     def add_cut(self,arr, cuts):
         
         arr_cut = arr  
         applycut = "arr_cut["
         inputDict = self.cutDict
-        subDict = inputDict[cuts]
-        for i,(key,val) in enumerate(subDict.items()):
-            if i == len(subDict)-1:
+        cutval = inputDict[cuts]
+        for i,(key,val) in enumerate(cutval.items()):
+            print(i)
+            if i == len(cutval)-1:
                 applycut += 'self.cut("%s","%s")]' % (key,cuts)
             else:
                 applycut += 'self.cut("%s","%s") & ' % (key,cuts)
@@ -187,7 +178,7 @@ class pyPlot(pyDict):
         sys.stdout.write(" \r[{0}] {1}%".format(arrow + spaces, int(round(percent * 100))))
         sys.stdout.flush()
 
-    # Recreates the histograms of the root file
+        # Recreates the histograms of the root file
     def recreateLeaves(self):
                 
         binwidth = 1.0

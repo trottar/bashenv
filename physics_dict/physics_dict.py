@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2020-03-13 12:53:59 trottar"
+# Time-stamp: "2020-04-20 10:57:21 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -133,16 +133,16 @@ def search(term):
         "",
         
         "inclusive reaction" :
-        "",
+        "Ignore some products, multiple physics processes. (e.g. p(e,e'\{pi}n)X)",
         
         "semi-inclusive reaction" :
         "",
         
         "exclusive reaction" :
-        "",
+        "All products are known, one physics process is well defined.(e.g. p(e,e'\{pi}n))",
         
         "compton scattering" :
-        "",
+        "Inelastic scattering of a photon by a charged particle. The scattered charged particle emits a photon of decreased energy which is usually an X-ray or gamma ray which is detected.",
         
         "epics" :
         "Provides information about the beam position, magnet settings, target status, and accelerator status which reads out in the GUI every 30 seconds.",
@@ -261,6 +261,61 @@ def search(term):
         "roman pot" :
         "Proton-on-target (pot). The name of a technique (and of the relevant device) used in accelerator physics. Named after its implementation by the CERN Rome group in the early 1970s, it is an important tool to measure the total cross section of two particle beams in a collider. Roman pots are located as close to the beamline as possible, to capture the accelerated particles which scatter by very small angles.",
 
+        "cteq electron" : "11",
+
+        "cteq proton" : "2212",
+
+        "cteq neutron" : "2112",
+
+        "cteq pion plus" : "211",
+
+        "cteq pion zero" : "111",
+
+        "cteq pion negative" : "-211",
+
+        "cteq kaon plus" : "321",
+
+        "cteq kaon zero" : "311",
+        
+        "cteq kaon negative" : "-321",
+
+        "cteq lambda" : "3122",
+
+        "cteq sigma zero" : "3212",
+
+        "hyperon" :
+        "unstable baryon with constituent quark mass of strange or higher.",
+
+        "hard physics" :
+        "high Q^2",
+
+        "soft physics" :
+        "low Q^2",
+
+        "electroproduction" :
+        "the production of particles by means of electron/photon incidenting off a target.",
+
+        "parton distribution function" :
+        "collinear (same line) factorization. The probability density for finding a particle with a certain longitudinal momentum fraction, x, at a resolution scale, Q^2 (normalized to the number of partons).",
+
+        "longitudinal momentum fraction" :
+        "x",
+
+        "asymptotic freedom" :
+        "Bonds between particles become asymptotically weaker as energies increase and distance decreases.",
+
+        "Q2 scaling" :
+        "As you approach asymptotic freedom, the cross section should follow a certain Q2 dependence (e.g. Q^-6, Q^-8). In this regime of asymptotic freedom, quarks are free. The challenge is seeing where this regime starts. If this regime applies, the longitudinal cross section should be much greater than the transverse cross section.",
+
+        "structure function" :
+        "Measure of the partonic structure of hadrons (key for deriving parton distributions in nucleons). It is a probability density function that characterizes the internal structure of the nucleon. Describes the scattering probability of particles (S.F. increases at higher energies)",
+
+        "regge theory" :
+        "says if two particles are approaching each other, the chances of the colliding increases as the energy if the particle increases (it predates the SM). BFKL understands Regge theory from first principles",
+
+        "BFKL" :
+        "",
+        
         "test" :
         Math('\Delta'),
 
