@@ -41,6 +41,8 @@ import numpy as np
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 from ROOT import TFile, TH1F
+import scipy as sc
+from scipy import stats, optimize, interpolate
 import matplotlib.pyplot as plt
 from matplotlib import interactive
 from matplotlib import colors
@@ -99,7 +101,12 @@ class pyRoot():
             f.Close()
         except TypeError:
             print("\nERROR: Only current accepting 1D array/list values\n")
-    
+
+class pyEquation():
+
+    def missmass():
+        print("missmass")
+            
 class pyPlot(pyDict):
     
     def __init__(self, cutDict=None):
@@ -126,11 +133,26 @@ class pyPlot(pyDict):
 
         return arrPlot
 
+    def read_dict(self,f):
+
+        cutDict = {}
+        cut_new = ()
+        for line in f:
+            if "#" in line:
+                continue
+            else:
+                line  = line.split("=")
+                cuts = line[1]
+                cutName = {line[0].rstrip() : cuts}
+                cutDict.update(cutName)
+        return cutDict
+
     # Create a working dictionary for cuts
     def w_dict(self,cuts):
 
         inputDict = self.cutDict
         subDict = inputDict[cuts]
+        subDict = subDict.split(",")
         cut_arr = [evt for evt in subDict]
         return cut_arr
             
@@ -145,21 +167,31 @@ class pyPlot(pyDict):
             return self.cutDict.get(key,"Leaf name not found")
 
     # Old version of apply cuts
-    def applyCuts(self,leaf,cuts=None):
+    def applyCuts(self,leaf,cuts=None,either=False):
         
         if cuts:
-            tmp = leaf
-            applycut = 'tmp['
-            i=0
-            while i < (len(cuts)-1):
-                applycut += 'self.cut("%s") & ' % cuts[i]
-                i+=1
-            applycut += 'self.cut("%s")]' % cuts[len(cuts)-1]
-            tmp = eval(applycut)
+            if either==True:
+                tmp = leaf
+                applycut = 'tmp['
+                i=0
+                while i < (len(cuts)-1):
+                    applycut += 'self.cut("%s") | ' % cuts[i]
+                    i+=1
+                applycut += 'self.cut("%s")]' % cuts[len(cuts)-1]
+                tmp = eval(applycut)
+            else:
+                tmp = leaf
+                applycut = 'tmp['
+                i=0
+                while i < (len(cuts)-1):
+                    applycut += 'self.cut("%s") & ' % cuts[i]
+                    i+=1
+                applycut += 'self.cut("%s")]' % cuts[len(cuts)-1]
+                tmp = eval(applycut)
         else:
             print('No cuts applied to %s' % leaf)
             tmp = leaf
-        
+            
         return tmp
 
     # New version of applying cuts
@@ -226,10 +258,10 @@ class pyPlot(pyDict):
             fig, ax = plt.subplots(tight_layout=True,figsize=(11.69,8.27))
         if (xmin or xmax or ymin or ymax):
             # norm=colors.LogNorm() makes colorbar normed and logarithmic
-            hist = ax.hist2d(xcut, ycut,bins=(pyMisc.setbin(x,binx,xmin,xmax),pyMisc.setbin(y,biny,ymin,ymax)), norm=colors.LogNorm())
+            hist = ax.hist2d(xcut, ycut,bins=(pyMisc.setbin(x,binx,xmin,xmax),pyMisc.setbin(y,biny,ymin,ymax)), norm=colors.LogNorm(),cmap=plt.cm.YlGnBu)
         else:
             # norm=colors.LogNorm() makes colorbar normed and logarithmic
-            hist = ax.hist2d(xcut, ycut,bins=(pyMisc.setbin(x,binx),pyMisc.setbin(y,biny)), norm=colors.LogNorm())
+            hist = ax.hist2d(xcut, ycut,bins=(pyMisc.setbin(x,binx),pyMisc.setbin(y,biny)), norm=colors.LogNorm(),cmap=plt.cm.YlGnBu)
         if layered is True :
             plt.colorbar(hist[3], ax=ax, spacing='proportional', label='Number of Events')
 
@@ -246,32 +278,28 @@ class pyPlot(pyDict):
         return [binVal, fig]
 
 
-    def polarPlot(self,theta,r,title,thetalabel,rlabel,bintheta,binr,pyMisc,
-                  thetamin=None,thetamax=None,rmin=None,rmax=None,cuts=None,figure=None,ax=None):
+    def polarPlot(self,theta,r,title,thetalabel,rlabel,
+                  thetamin=None,thetamax=None,ticks=None,figure=None,ax=None):
 
-        if cuts:
-            thetacut  = self.applyCuts(theta,cuts)
-            rcut = self.applyCuts(r,cuts)
-        else:
-            thetacut = theta
-            rcut = r
-        xy = np.vstack([thetacut, rcut])
-        z = stats.gaussian_kde(xy)(xy)
+        xy = np.vstack([theta, r])
+        z = sc.stats.gaussian_kde(xy)(xy)
+        theta = np.radians(theta)
         idx = z.argsort()
-        x, y, z = np.array(thetacut)[idx], np.array(rcut)[idx], z[idx]
-        if ax or figure:
-            # ax = figure.add_subplot(sub,polar=True)
-            print("")
-        else:
-            fig,ax = plt.subplot(111,polar=True)
-        if (thetamin or thetamax or rmin or rmax):
-            hist = ax.scatter(thetacut, rcut, c=z, edgecolor='', alpha = 0.75)
-        else:
-            hist = ax.scatter(thetacut, rcut, c=z, edgecolor='', alpha = 0.75)
+        x, y, z = np.array(theta)[idx], np.array(r)[idx], z[idx]
+        
+        if not ax or figure:
+            fig = plt.figure(figsize=(11.69,8.27))
+            ax = plt.subplot(111, polar=True)
+        hist = ax.scatter(x, y, c=z)
         ax.grid(True)
-        plt.title(title)
-        plt.xlabel(thetalabel)
-        plt.ylabel(rlabel)
-        # plt.colorbar()
+        if thetamin:
+            ax.set_thetamin(thetamin)
+        if thetamax:
+            ax.set_thetamax(thetamax)
+        if ticks:
+            val = np.linspace(thetamin*(math.pi/180),thetamax*(math.pi/180),ticks)
+            ax.set_xticks(val)
+        ax.text(3*math.pi/2, 11.75, rlabel, fontsize=20)
+        # plt.colorbar(hist, orientation='horizontal',spacing='proportional', label='Number of Events')
 
         return fig

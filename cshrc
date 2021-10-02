@@ -20,6 +20,8 @@ setenv PROGRAMS $HOME/Programs/my_programs
 
 setenv ESCALATE $HOME/ResearchNP/gemc/escalate/escalate
 
+setenv extHD "/media/trottar/Backup Plus"
+
 #######################################################################################################
 # EJPM package for g4e and ejana ######################################################################
 #######################################################################################################
@@ -59,6 +61,8 @@ alias       docker  'sudo docker'
 alias       chrome  'google-chrome \!:1'
 alias       git-all  'find ~/ -name ".git"'
 alias       pyIndent 'sudo autopep8 -i \!:1'
+alias       jnb      'jupyter notebook'
+alias       go_extHD 'cd "$extHD"'
 
 alias word libreoffice 
 alias snapshot shutter
@@ -67,9 +71,11 @@ alias snapshot shutter
 # alias redmine-start 'cd /opt/redmine-4.0.2-3/; sudo ./ctlscript.sh start'
 # alias redmine-restart 'sudo ./opt/redmine-4.0.2-3/ctlscript.sh restart'
 # alias redmine-stop 'sudo ./opt/redmine-4.0.2-3/ctlscript.sh stop'
+alias slides 'jupyter nbconvert *.ipynb --to slides --post serve'
 alias battery 'upower -i /org/freedesktop/UPower/devices/battery_BAT0'
 alias reset 'source ~/.cshrc;cl'
 alias jlab 'set-title Jlab; ssh -X -Y trottar@login.jlab.org'
+alias kindle 'set-title Kindle;echo 'get to grab file, put to place file';sftp -v -oPort=2222 trottar@192.168.0.234' #192.168.0.234
 alias backup 'gksu deja-dup-prefences'
 alias vncstart 'vncserver -geometry 1200x1000 :7'
 alias vnckill 'vncserver -kill :7'
@@ -91,16 +97,18 @@ alias memleak "valgrind --tool=memcheck --leak-check=yes \!:1"
 alias pdf-shrink '~/Programs/pdfsizeopt/pdfsizeopt \!:1 \!:2'
 alias updatepip 'sh ~/bin/upgradePython.sh'
 alias anki '~/Programs/anki-2.1.15-linux-amd64/bin/anki'
-alias jlab_docker 'google-chrome http://127.0.0.1:8888/;docker run -it -p8888:8888 electronioncollider/epic'
+alias jlab_docker 'google-chrome http://127.0.0.1:8888/;docker run -it -p8888:8888 electronioncollider/escalate'
 alias share_jlab_docker 'sh ~/bin/shareDocker.sh \!:1'
-alias ssh_docker 'google-chrome http://127.0.0.1:8888/;docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --rm -it -p8888:8888 --user 1000 electronioncollider/epic bash'
-alias pull_docker 'docker pull electronioncollider/epic'
+alias ssh_docker 'google-chrome http://127.0.0.1:8888/;docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --rm -it -p8888:8888 --user 1000 electronioncollider/escalate bash'
+alias pull_docker 'docker pull electronioncollider/escalate'
 alias plot "$HOME/bin/quick_plot/plotRoot.sh"
 alias update_calendar "sh $ORG/google_calendar/update_calendar.sh"
 alias email "sh $PROGRAMS/google_email/send_gmail.sh"
 alias clion "sh ~/Programs/clion-*/bin/clion.sh"
 alias ejpm_env "source $HOME/.local/share/ejpm/env.csh"
 alias escalate_env "source $ESCALATE/escalate.csh"
+alias replace "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
+alias search "grep -rn '\!:1' *"
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
