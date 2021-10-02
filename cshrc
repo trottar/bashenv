@@ -109,6 +109,7 @@ alias ejpm_env "source $HOME/.local/share/ejpm/env.csh"
 alias escalate_env "source $ESCALATE/escalate.csh"
 alias replace "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
 alias search "grep -rn '\!:1' *"
+alias git-check "bash $HOME/bin/gitcheck.sh"
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
