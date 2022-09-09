@@ -10,24 +10,15 @@ setenv ORG $HOME/ResearchNP/org_file
 
 setenv hcana $HOME/Analysis/hcana
 
-setenv hallc_replay $HOME/Analysis/hallc_replay
-
-setenv replay_kaonlt $HOME/Analysis/hallc_replay_lt
+setenv kaonlt $HOME/Analysis/hallc_replay_lt
 
 setenv ROOTFILES $HOME/ResearchNP/ROOTfiles
 
 setenv PROGRAMS $HOME/Programs/my_programs
 
-setenv ESCALATE $HOME/ResearchNP/gemc/escalate/escalate
-
 setenv extHD "/media/trottar/Backup Plus"
 
-#######################################################################################################
-# EJPM package for g4e and ejana ######################################################################
-#######################################################################################################
-# env command also regenerated files:
-# /home/trottar/.local/share/ejpm/env.csh
-
+setenv youtube_api "AIzaSyAL_KVQ0CRPpLwBQkjYQrccUhE2R0Vn3Zc"
 
 #######################################################################################################
 
@@ -63,6 +54,7 @@ alias       git-all  'find ~/ -name ".git"'
 alias       pyIndent 'sudo autopep8 -i \!:1'
 alias       jnb      'jupyter notebook'
 alias       go_extHD 'cd "$extHD"'
+alias       jgrab    'sftp trottar@ftp.jlab.org'
 
 alias word libreoffice 
 alias snapshot shutter
@@ -82,31 +74,26 @@ alias vnckill 'vncserver -kill :7'
 alias help 'source $HOME/bin/help.csh'
 alias ipconfig "source $HOME/bin/findHost.csh"
 alias set-title "source $HOME/bin/nameTerm.csh"
-alias search "$HOME/bin/physics_dict/run_physics_dict.sh \!:1"
+alias dict "$HOME/bin/physics_dict/run_physics_dict.sh \!:1"
 alias howto "evince $ORG/commands.pdf"
 alias server "source $HOME/bin/run_server.csh"
 alias send "sh $HOME/bin/copyFiles.sh"
-alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh"
+#alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh"
 alias cpu-info "inxi -Fxzd"
 # alias root2py "cd $HOME/bin/;sh root2py.sh \!:1;"
 alias ROOT2PY "$HOME/bin/root2py.sh"
 # alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
-alias load "gnome-terminal --geometry=81x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2;google-chrome &"
+alias load "gnome-terminal --geometry=81x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2;google-chrome &;auto_mail.sh"
 alias memleak "valgrind --tool=memcheck --leak-check=yes \!:1"
 # alias rootleak "valgrind --leak-check=full --show-leak-kinds=all --tool=memcheck --track-origins=yes --suppressions=$ROOTSYS/etc/valgrind-root.supp root.exe -l -b -q \!:1"
 alias pdf-shrink '~/Programs/pdfsizeopt/pdfsizeopt \!:1 \!:2'
 alias updatepip 'sh ~/bin/upgradePython.sh'
 alias anki '~/Programs/anki-2.1.15-linux-amd64/bin/anki'
-alias jlab_docker 'google-chrome http://127.0.0.1:8888/;docker run -it -p8888:8888 electronioncollider/escalate'
 alias share_jlab_docker 'sh ~/bin/shareDocker.sh \!:1'
-alias ssh_docker 'google-chrome http://127.0.0.1:8888/;docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --rm -it -p8888:8888 --user 1000 electronioncollider/escalate bash'
-alias pull_docker 'docker pull electronioncollider/escalate'
 alias plot "$HOME/bin/quick_plot/plotRoot.sh"
 alias update_calendar "sh $ORG/google_calendar/update_calendar.sh"
 alias email "sh $PROGRAMS/google_email/send_gmail.sh"
 alias clion "sh ~/Programs/clion-*/bin/clion.sh"
-alias ejpm_env "source $HOME/.local/share/ejpm/env.csh"
-alias escalate_env "source $ESCALATE/escalate.csh"
 alias replace "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
 alias search "grep -rn '\!:1' *"
 alias git-check "bash $HOME/bin/gitcheck.sh"
@@ -129,12 +116,9 @@ alias __git_current_branch 'git rev-parse --abbrev-ref HEAD >& /dev/null && echo
 # Set shell prompt
 alias precmd 'set prompt="\n%{\033[35m%}Branch-`__git_current_branch`\n%{\033[34m%}%B%m%b %B%{\033[1;36m%}%~%b%{\033[00m%}> "'
 
-# Assure working jlab software
+# Assure workking jlab software
 setenv JLAB_ROOT /opt/jlab_software
-source $JLAB_ROOT/2.2/ce/jlab.csh
-
-setenv ROOTSYS $HOME/ResearchNP/gemc/eic/root/root-v6-20-00/
-source $ROOTSYS/bin/thisroot.csh
+source $JLAB_ROOT/2.2/ce/jlab.csh  # default root 6.12.06, currently set to root 6.18.06
 
 echo
 echo
@@ -144,3 +128,4 @@ echo "New terminal is open"
 echo "~~~~~~~~~~~~~~~~~~~~"
 echo
 echo
+    
