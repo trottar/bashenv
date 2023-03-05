@@ -16,9 +16,9 @@ setenv ROOTFILES $HOME/ResearchNP/ROOTfiles
 
 setenv PROGRAMS $HOME/Programs/my_programs
 
-setenv extHD "/media/trottar/Backup Plus"
+setenv ext_hd "/media/trottar/Backup*Plus/"
 
-setenv youtube_api "AIzaSyAL_KVQ0CRPpLwBQkjYQrccUhE2R0Vn3Zc"
+setenv youtube_api $YOUTUBE_API
 
 #######################################################################################################
 
@@ -53,11 +53,14 @@ alias       chrome  'google-chrome \!:1'
 alias       git-all  'find ~/ -name ".git"'
 alias       pyIndent 'sudo autopep8 -i \!:1'
 alias       jnb      'jupyter notebook'
-alias       go_extHD 'cd "$extHD"'
 alias       jgrab    'sftp trottar@ftp.jlab.org'
+alias       chat     '$HOME/bin/chat.sh'
+alias       chatgui  '$HOME/bin/chat.sh -g'
 
 alias word libreoffice 
 alias snapshot shutter
+
+#alias barrier 'snap run barrier' # barrier (through snap), for keyboard/mouse sharing
 
 # alias redmine 'google-chrome http://127.0.0.1/redmine'
 # alias redmine-start 'cd /opt/redmine-4.0.2-3/; sudo ./ctlscript.sh start'
@@ -97,6 +100,7 @@ alias clion "sh ~/Programs/clion-*/bin/clion.sh"
 alias replace "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
 alias search "grep -rn '\!:1' *"
 alias git-check "bash $HOME/bin/gitcheck.sh"
+alias bot "cd $PROGRAMS/starfinder/src; python3.8 main.py"
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
