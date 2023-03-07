@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-06 21:55:39 trottar"
+# Time-stamp: "2023-03-06 22:21:04 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -22,7 +22,7 @@ args = sys.argv
 prompt_type = sys.argv[1]
 
 # Maximum number of tokens for model used
-max_tokens = 3000
+max_tokens = 1500
 
 # Overlap in tokens if it exceeds maximum
 overlap_size = 100
