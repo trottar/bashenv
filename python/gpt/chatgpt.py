@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-05 04:52:44 trottar"
+# Time-stamp: "2023-03-06 19:55:47 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -40,97 +40,76 @@ def convert_to_detokenized_text(tokenized_text):
     prompt_text = prompt_text.replace(" 's", "'s")
     return prompt_text
 
-if len(args) == 1:
-    
-    user_inp =  input('Please enter your prompt...')
-
-    prompt_request = f"{user_inp}"
-    
-    # text-davinci-003
-    '''
-    prompt = convert_to_detokenized_text(prompt_request)
-
-    response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=prompt,
-            temperature=.5,
-            max_tokens=summary_length,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-    )
-
-    prompt_response = response["choices"][0]["text"].strip()
-    '''
-
-    # gpt-3.5-turbo
-    messages = [{"role": "system", "content": "This is text summarization."}]    
-    messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
-
-    response = openai.ChatCompletion.create(
+def chat(messages):
+        # gpt-3.5-turbo
+        response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages,
             temperature=.5,
             max_tokens=max_tokens,
             top_p=1,
             frequency_penalty=0,
-            presence_penalty=0
-    )
+            presence_penalty=0,
+        )
 
-    prompt_response = response["choices"][0]["message"]['content'].strip()
+        api_usage = response['usage']
+        print(f"\n\nTotal tokens comsumed: {api_usage}\n\n")
 
-    print("\n\n\n\n",prompt_response)
+        messages.append({'role': response.choices[0].message.role, 'content': response.choices[0].message.content})
+    
+        return messages
+    
+if len(args) == 1:
+
+    prompt_request = '''
+I want you to act as a professor in the area of high to medium energy nuclear physics. I will provide some topics related to the study of high to medium energy nuclear physics, and it will be your job to explain these concepts in an easy-to-understand manner. I will also provide some questions, ending with a question mark, that will require specific knowledge of Hall C at Jefferson Lab. This could include providing examples, posing questions or breaking down complex ideas into smaller pieces that are easier to comprehend.
+    '''
+    
+    messages = []
+    messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
+    messages = chat(messages)
+    print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+
+    # Loop through the conversation
+    while True:
+
+        user_inp =  input('Please enter your prompt...')
+
+        if "bye" in user_inp:
+            break
+
+        prompt_request = f"My first request is '{user_inp}'"
+
+        messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
+        messages = chat(messages)
+        print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+    
 
 else:
-
-    def run_gpt(user_inp):
-        
-        prompt_request = f"{user_inp}"
-
-        # text-davinci-003
-        '''
-        prompt = convert_to_detokenized_text(prompt_request)
-
-        response = openai.Completion.create(
-                model="text-davinci-003",
-                prompt=prompt,
-                temperature=.5,
-                max_tokens=summary_length,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0
-        )
-
-        prompt_response = response["choices"][0]["text"].strip()
-        '''
-
-        # gpt-3.5-turbo
-        messages = [{"role": "system", "content": "This is text summarization."}]    
-        messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
-
-        response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=messages,
-                temperature=.5,
-                max_tokens=max_tokens,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0
-        )
-
-        prompt_response = response["choices"][0]["message"]['content'].strip()
-
-        print("\n\n\n\n",prompt_response)
-
-        return prompt_response
     
     # Define a function to handle button clicks
     def handle_button_click():
         # Get the user's input from the text box
-        input_text = input_box.get("1.0", "end-1c")
+        user_inp = input_box.get("1.0", "end-1c")
 
+        prompt_request = '''
+I want you to act as a professor in the area of high to medium energy nuclear physics. I will provide some topics related to the study of high to medium energy nuclear physics, and it will be your job to explain these concepts in an easy-to-understand manner. I will also provide some questions, ending with a question mark, that will require specific knowledge of Hall C at Jefferson Lab. This could include providing examples, posing questions or breaking down complex ideas into smaller pieces that are easier to comprehend.
+        '''
+        
+        messages = []
+        messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
+        messages = chat(messages)
+        print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+
+        # Loop through the conversation
+        prompt_request = f"My first request is '{user_inp}'"
+        
+        messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
+        messages = chat(messages)
+        print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+        
         # Process the input (in this example, we just display it back to the user)
-        output_text = run_gpt(input_text)
+        output_text = '{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip())
 
         # Display the output in the output label
         output_label.config(text=output_text)
