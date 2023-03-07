@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-05 04:19:14 trottar"
+# Time-stamp: "2023-03-06 21:59:13 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -22,7 +22,8 @@ while getopts 'hg' flag; do
         echo "--------------------------------------------------------------"
         echo
         echo "The following flags can be called for the heep analysis..."
-        echo "    -h, help"
+	echo "    -h, help"
+	echo "     arg1='Chat prompt type (jlab, root, python, c++, or fortran)"
 	echo "    -g, gui"
         exit 0
         ;;
@@ -36,10 +37,20 @@ cd ~/bin/python/gpt/
 
 if [[ $g_flag = "true" ]]; then    
 
-    python3.8 chatgpt.py "gflag"
+    echo
+    echo
+    echo "Running chat program for $1 in GUI..."
+    echo
+    
+    python3.8 chatgpt.py $1 "gflag"
     
 else
 
-    python3.8 chatgpt.py
+    echo
+    echo
+    echo "Running chat program for $1 in terminal..."
+    echo
+    
+    python3.8 chatgpt.py $1
     
 fi

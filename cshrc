@@ -54,8 +54,8 @@ alias       git-all  'find ~/ -name ".git"'
 alias       pyIndent 'sudo autopep8 -i \!:1'
 alias       jnb      'jupyter notebook'
 alias       jgrab    'sftp trottar@ftp.jlab.org'
-alias       chat     '$HOME/bin/chat.sh'
-alias       chatgui  '$HOME/bin/chat.sh -g'
+alias       chat     '$HOME/bin/chat.sh \!:1'
+alias       chatgui  '$HOME/bin/chat.sh -g \!:1'
 
 alias word libreoffice 
 alias snapshot shutter

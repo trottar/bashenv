@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-06 19:55:47 trottar"
+# Time-stamp: "2023-03-06 21:55:39 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -19,13 +19,35 @@ import os, sys
 
 args = sys.argv
 
+prompt_type = sys.argv[1]
+
 # Maximum number of tokens for model used
-max_tokens = 2000
+max_tokens = 3000
 
 # Overlap in tokens if it exceeds maximum
-overlap_size=100
+overlap_size = 100
 
 openai.api_key = os.getenv('OPENAI_KEY')
+
+promptDict = {
+
+    "jlab" : '''
+I want you to act as a professor in the area of high to medium energy nuclear physics. I will provide some topics related to the study of high to medium energy nuclear physics, and it will be your job to explain these concepts in an easy-to-understand manner. I will also provide some questions, ending with a question mark, that will require specific knowledge of Hall C at Jefferson Lab. This could include providing examples, posing questions or breaking down complex ideas into smaller pieces that are easier to comprehend.
+    ''',
+    "root" : '''
+I want you to act as an expert in cern root. I will ask programming-related questions written in cern root and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
+    ''',
+    "python" : '''
+I want you to act as an expert in python. I will ask programming-related questions written in python and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
+    ''',
+    "c++" : '''
+I want you to act as an expert in c++. I will ask programming-related questions written in c++ and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
+    ''',
+    "fortran" : '''
+I want you to act as an expert in fortran. I will ask programming-related questions written in fortran and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
+    ''',    
+    
+}
 
 def break_up_input(tokens, chunk_size, overlap_size):
     if len(tokens) <= chunk_size:
@@ -59,11 +81,9 @@ def chat(messages):
     
         return messages
     
-if len(args) == 1:
+if len(args) == 2:
 
-    prompt_request = '''
-I want you to act as a professor in the area of high to medium energy nuclear physics. I will provide some topics related to the study of high to medium energy nuclear physics, and it will be your job to explain these concepts in an easy-to-understand manner. I will also provide some questions, ending with a question mark, that will require specific knowledge of Hall C at Jefferson Lab. This could include providing examples, posing questions or breaking down complex ideas into smaller pieces that are easier to comprehend.
-    '''
+    prompt_request = promptDict[prompt_type]
     
     messages = []
     messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
@@ -92,9 +112,7 @@ else:
         # Get the user's input from the text box
         user_inp = input_box.get("1.0", "end-1c")
 
-        prompt_request = '''
-I want you to act as a professor in the area of high to medium energy nuclear physics. I will provide some topics related to the study of high to medium energy nuclear physics, and it will be your job to explain these concepts in an easy-to-understand manner. I will also provide some questions, ending with a question mark, that will require specific knowledge of Hall C at Jefferson Lab. This could include providing examples, posing questions or breaking down complex ideas into smaller pieces that are easier to comprehend.
-        '''
+        prompt_request = promptDict[prompt_type]
         
         messages = []
         messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
