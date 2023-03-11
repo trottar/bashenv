@@ -1,7 +1,7 @@
 [
     {
 	"name": "general",
-	"prompt": "I want you to answer any general question."
+	"prompt": "I want you to answer any general question. I want any code written in a format that is readable in a linux GNOME terminal. I want any additional text written with bullet points (dentoted as \u2022) that are readable in a linux GNOME terminal."
     },    
     {
 	"name": "jlab",

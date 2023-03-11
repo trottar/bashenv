@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-10 19:28:09 trottar"
+# Time-stamp: "2023-03-11 14:25:38 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -18,6 +18,7 @@ import openai
 import json
 import readline
 import re
+import datetime
 import os, sys
 
 args = sys.argv
@@ -76,27 +77,43 @@ def chat(messages):
     
         return messages
 
-def convert_to_readable_code(text):
+def convert_to_colored_code(text):
     '''
     Finds code snippets and colors it yellow
     '''
     
+
+    if '```' in text:
     
-    # Find the first and second occurrence of ```
-    first_occur = re.search('```', text)
-    second_occur = None
-    if first_occur:
-        second_occur = re.search('```', text[first_occur.end():])
-    if second_occur:
-        start1 = first_occur.start()
-        end1 = first_occur.end()
-        start2 = second_occur.start() + end1
-        end2 = second_occur.end() + end1
-        new_text = text[:start1] + '\033[33m\n\033[7m' + text[end1:start2] + '\033[0m\n\033[0m\033[32m' + text[end2:] + '\033[0m\n'
+        # Find the first and second occurrence of ```
+        first_occur = re.search('```', text)
+        second_occur = None
+        if first_occur:
+            second_occur = re.search('```', text[first_occur.end():])
+        if second_occur:
+            start1 = first_occur.start()
+            end1 = first_occur.end()
+            start2 = second_occur.start() + end1
+            end2 = second_occur.end() + end1
+            new_text = text[:start1] + '\033[33m\n\033[7m' + text[end1:start2] + '\033[0m\n\033[0m\033[32m' + text[end2:] + '\033[0m\n'
+            
+    elif '```' in text:
+        # Find the first and second occurrence of ```
+        first_occur = re.search('```', text)
+        second_occur = None
+        if first_occur:
+            second_occur = re.search('```', text[first_occur.end():])
+        if second_occur:
+            start1 = first_occur.start()
+            end1 = first_occur.end()
+            start2 = second_occur.start() + end1
+            end2 = second_occur.end() + end1
+            new_text = text[:start1] + '\033[33m\n\033[7m' + text[end1:start2] + '\033[0m\n\033[0m\033[32m' + text[end2:] + '\033[0m\n'
+            
     else:
         new_text = text
 
-
+        
     return new_text
     
 if len(args) == 2:
@@ -106,10 +123,13 @@ if len(args) == 2:
     messages = []
     messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
     messages = chat(messages)
-    print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
+    print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_colored_code(messages[-1]['content'].strip())))
 
     # Keep track of the last user input
     last_user_input = ""
+
+    # Keep track of all text
+    conversion_text = []
     
     # Loop through the conversation
     while True:
@@ -131,8 +151,22 @@ if len(args) == 2:
 
         messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
         messages = chat(messages)
-        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
-    
+        chat_response = '\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_colored_code(messages[-1]['content'].strip()))
+        conversion_text.append(chat_response)
+        print(chat_response)
+
+
+        # Get the current date and time
+        now = datetime.datetime.now()
+        # Format the date and time as a string to use in the file name
+        date_string = now.strftime("%Y-%m-%d_%H-%M-%S")
+
+        if user_inp[0:4] == "save":
+            # Open the file in write mode and save the string
+            with open(f"./saved/{date_string}.txt", "w") as file:
+                file.write("".join(conversion_text))
+
+            continue
 
 else:
     
@@ -146,14 +180,14 @@ else:
         messages = []
         messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
         messages = chat(messages)
-        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
+        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_colored_code(messages[-1]['content'].strip())))
 
         # Loop through the conversation
         prompt_request = f"My first request is '{user_inp}'"
         
         messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
         messages = chat(messages)
-        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
+        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_colored_code(messages[-1]['content'].strip())))
         
         # Process the input (in this example, we just display it back to the user)
         output_text = '{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip())
