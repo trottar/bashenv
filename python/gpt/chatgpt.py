@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-11 14:29:36 trottar"
+# Time-stamp: "2023-03-11 14:37:12 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -143,6 +143,7 @@ if len(args) == 2:
             last_user_input = user_inp
             
         if user_inp[0:3] == "bye":
+            print('\033[36m{0}\033[0m: \033[32mThanks for chatting, goodbye!\033[0m\n'.format(messages[-1]['role'].strip()))
             break
         if user_inp == "":
             continue
