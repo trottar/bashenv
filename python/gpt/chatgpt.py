@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-11 14:27:55 trottar"
+# Time-stamp: "2023-03-11 14:29:36 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -157,6 +157,7 @@ if len(args) == 2:
             with open(f"./saved/{date_string}.txt", "w") as file:
                 file.write("".join(conversion_text))
 
+            print('\033[36m{0}\033[0m: \033[32mChat saved!\033[0m\n'.format(messages[-1]['role'].strip()))
             continue
         
         prompt_request = f"My first request is '{user_inp}'"
