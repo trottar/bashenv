@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-11 14:25:38 trottar"
+# Time-stamp: "2023-03-11 14:27:55 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -147,6 +147,18 @@ if len(args) == 2:
         if user_inp == "":
             continue
 
+        if user_inp[0:4] == "save":
+            # Get the current date and time
+            now = datetime.datetime.now()
+            # Format the date and time as a string to use in the file name
+            date_string = now.strftime("%Y-%m-%d_%H-%M-%S")
+            
+            # Open the file in write mode and save the string
+            with open(f"./saved/{date_string}.txt", "w") as file:
+                file.write("".join(conversion_text))
+
+            continue
+        
         prompt_request = f"My first request is '{user_inp}'"
 
         messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
@@ -154,19 +166,6 @@ if len(args) == 2:
         chat_response = '\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_colored_code(messages[-1]['content'].strip()))
         conversion_text.append(chat_response)
         print(chat_response)
-
-
-        # Get the current date and time
-        now = datetime.datetime.now()
-        # Format the date and time as a string to use in the file name
-        date_string = now.strftime("%Y-%m-%d_%H-%M-%S")
-
-        if user_inp[0:4] == "save":
-            # Open the file in write mode and save the string
-            with open(f"./saved/{date_string}.txt", "w") as file:
-                file.write("".join(conversion_text))
-
-            continue
 
 else:
     
