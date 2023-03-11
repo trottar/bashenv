@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-06 22:21:04 trottar"
+# Time-stamp: "2023-03-10 19:11:10 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -15,11 +15,17 @@ import nltk
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 import openai
+import json
+import readline
+import re
 import os, sys
 
 args = sys.argv
 
 prompt_type = sys.argv[1]
+
+# Debug flag
+DEBUG = False
 
 # Maximum number of tokens for model used
 max_tokens = 1500
@@ -29,26 +35,14 @@ overlap_size = 100
 
 openai.api_key = os.getenv('OPENAI_KEY')
 
-promptDict = {
+# Open the JSON file and load the data into a dictionary
+with open('prompts.json', 'r') as file:
+    promptJSON = json.load(file)
 
-    "jlab" : '''
-I want you to act as a professor in the area of high to medium energy nuclear physics. I will provide some topics related to the study of high to medium energy nuclear physics, and it will be your job to explain these concepts in an easy-to-understand manner. I will also provide some questions, ending with a question mark, that will require specific knowledge of Hall C at Jefferson Lab. This could include providing examples, posing questions or breaking down complex ideas into smaller pieces that are easier to comprehend.
-    ''',
-    "root" : '''
-I want you to act as an expert in cern root. I will ask programming-related questions written in cern root and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
-    ''',
-    "python" : '''
-I want you to act as an expert in python. I will ask programming-related questions written in python and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
-    ''',
-    "c++" : '''
-I want you to act as an expert in c++. I will ask programming-related questions written in c++ and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
-    ''',
-    "fortran" : '''
-I want you to act as an expert in fortran. I will ask programming-related questions written in fortran and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations.
-    ''',    
+for tmp in promptJSON:
+    if prompt_type in tmp["name"]:
+        promptDict = tmp
     
-}
-
 def break_up_input(tokens, chunk_size, overlap_size):
     if len(tokens) <= chunk_size:
         yield tokens
@@ -74,35 +68,70 @@ def chat(messages):
             presence_penalty=0,
         )
 
-        api_usage = response['usage']
-        print(f"\n\nTotal tokens comsumed: {api_usage}\n\n")
+        if DEBUG == True:
+            api_usage = response['usage']
+            print(f"\n\nTotal tokens comsumed: {api_usage}\n\n")
 
         messages.append({'role': response.choices[0].message.role, 'content': response.choices[0].message.content})
     
         return messages
+
+def convert_to_readable_code(text):
+    '''
+    Finds code snippets and colors it yellow
+    '''
+    
+    
+    # Find the first and second occurrence of ```
+    first_occur = re.search('```', text)
+    second_occur = None
+    if first_occur:
+        second_occur = re.search('```', text[first_occur.end():])
+    if second_occur:
+        start1 = first_occur.start()
+        end1 = first_occur.end()
+        start2 = second_occur.start() + end1
+        end2 = second_occur.end() + end1
+        new_text = text[:start1] + '\033[33m\n\033[7m' + text[end1:start2] + '\033[0m\n\033[0m\033[32m' + text[end2:] + '\033[0m\n'
+    else:
+        new_text = text
+
+
+    return new_text
     
 if len(args) == 2:
 
-    prompt_request = promptDict[prompt_type]
+    prompt_request = promptDict["prompt"]
     
     messages = []
     messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
     messages = chat(messages)
-    print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+    print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
 
+    # Keep track of the last user input
+    last_user_input = ""
+    
     # Loop through the conversation
     while True:
 
         user_inp =  input('Please enter your prompt...')
-
-        if "bye" in user_inp:
+        
+        if user_inp == "\033[A":
+            user_inp = last_user_input
+            print(user_inp)
+        else:
+            last_user_input = user_inp
+            
+        if user_inp[0:3] == "bye":
             break
+        if user_inp == "":
+            continue
 
         prompt_request = f"My first request is '{user_inp}'"
 
         messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
         messages = chat(messages)
-        print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
     
 
 else:
@@ -112,19 +141,19 @@ else:
         # Get the user's input from the text box
         user_inp = input_box.get("1.0", "end-1c")
 
-        prompt_request = promptDict[prompt_type]
+        prompt_request = promptDict["prompt"]
         
         messages = []
         messages.append({"role": "system", "content": convert_to_detokenized_text(prompt_request)})
         messages = chat(messages)
-        print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
 
         # Loop through the conversation
         prompt_request = f"My first request is '{user_inp}'"
         
         messages.append({"role": "user", "content": convert_to_detokenized_text(prompt_request)})
         messages = chat(messages)
-        print('{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip()))
+        print('\033[36m{0}\033[0m: \033[32m{1}\033[0m\n'.format(messages[-1]['role'].strip(), convert_to_readable_code(messages[-1]['content'].strip())))
         
         # Process the input (in this example, we just display it back to the user)
         output_text = '{0}: {1}\n'.format(messages[-1]['role'].strip(), messages[-1]['content'].strip())
