@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-11 14:37:12 trottar"
+# Time-stamp: "2023-03-13 18:24:17 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -19,6 +19,7 @@ import json
 import readline
 import re
 import datetime
+import time
 import os, sys
 
 args = sys.argv
@@ -57,6 +58,20 @@ def convert_to_detokenized_text(tokenized_text):
     prompt_text = prompt_text.replace(" 's", "'s")
     return prompt_text
 
+def waiting_chat_response(func):
+    def wrapper(*args, **kwargs):
+        print("\n\tWaiting for chat response...", end="")
+        while True:
+            print(".", end="", flush=True)
+            time.sleep(1) # wait for 1 second
+            result = func(*args, **kwargs)
+            if result:
+                break
+        print("Response recieved!\n\n\n")
+        return result
+    return wrapper
+
+@waiting_chat_response
 def chat(messages):
         # gpt-3.5-turbo
         response = openai.ChatCompletion.create(
@@ -84,32 +99,21 @@ def convert_to_colored_code(text):
     
 
     if '```' in text:
-    
-        # Find the first and second occurrence of ```
-        first_occur = re.search('```', text)
-        second_occur = None
-        if first_occur:
-            second_occur = re.search('```', text[first_occur.end():])
-        if second_occur:
-            start1 = first_occur.start()
-            end1 = first_occur.end()
-            start2 = second_occur.start() + end1
-            end2 = second_occur.end() + end1
-            new_text = text[:start1] + '\033[33m\n\033[7m' + text[end1:start2] + '\033[0m\n\033[0m\033[32m' + text[end2:] + '\033[0m\n'
-            
-    elif '```' in text:
-        # Find the first and second occurrence of ```
-        first_occur = re.search('```', text)
-        second_occur = None
-        if first_occur:
-            second_occur = re.search('```', text[first_occur.end():])
-        if second_occur:
-            start1 = first_occur.start()
-            end1 = first_occur.end()
-            start2 = second_occur.start() + end1
-            end2 = second_occur.end() + end1
-            new_text = text[:start1] + '\033[33m\n\033[7m' + text[end1:start2] + '\033[0m\n\033[0m\033[32m' + text[end2:] + '\033[0m\n'
-            
+        while True:    
+            # Find the first and second occurrence of ```
+            first_occur = re.search('```', text)
+            second_occur = None
+            if first_occur:
+                second_occur = re.search('```', text[first_occur.end():])
+            if second_occur:
+                start1 = first_occur.start()
+                end1 = first_occur.end()
+                start2 = second_occur.start() + end1
+                end2 = second_occur.end() + end1
+                text = text[:start1] + '\033[33m\n\033[7m' + text[end1:start2] + '\033[0m\n\033[0m\033[32m' + text[end2:] + '\033[0m\n'
+                if '```' not in text:
+                    new_text = text
+                    break
     else:
         new_text = text
 
@@ -135,6 +139,10 @@ if len(args) == 2:
     while True:
 
         user_inp =  input('Please enter your prompt...')
+
+        if "equation" in user_inp:
+            user_inp = user_inp.replace("equation","equation (surround the equation with ```)")
+            print("!!!!!!",user_inp)
         
         if user_inp == "\033[A":
             user_inp = last_user_input
@@ -142,7 +150,7 @@ if len(args) == 2:
         else:
             last_user_input = user_inp
             
-        if user_inp[0:3] == "bye":
+        if user_inp[0:3] == "bye" or user_inp[0:4] == "exit":
             print('\033[36m{0}\033[0m: \033[32mThanks for chatting, goodbye!\033[0m\n'.format(messages[-1]['role'].strip()))
             break
         if user_inp == "":
