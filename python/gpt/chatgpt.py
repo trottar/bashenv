@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-13 18:24:17 trottar"
+# Time-stamp: "2023-03-13 18:26:47 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -142,7 +142,6 @@ if len(args) == 2:
 
         if "equation" in user_inp:
             user_inp = user_inp.replace("equation","equation (surround the equation with ```)")
-            print("!!!!!!",user_inp)
         
         if user_inp == "\033[A":
             user_inp = last_user_input
