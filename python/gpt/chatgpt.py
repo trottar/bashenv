@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-13 18:26:47 trottar"
+# Time-stamp: "2023-03-15 17:26:40 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -16,6 +16,7 @@ nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 import openai
 import json
+# Required for up arrow returns
 import readline
 import re
 import datetime
@@ -142,7 +143,8 @@ if len(args) == 2:
 
         if "equation" in user_inp:
             user_inp = user_inp.replace("equation","equation (surround the equation with ```)")
-        
+
+        # Returns previous prompt if up arrow is pressed
         if user_inp == "\033[A":
             user_inp = last_user_input
             print(user_inp)
