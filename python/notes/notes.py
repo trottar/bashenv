@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-16 16:51:48 trottar"
+# Time-stamp: "2023-03-17 13:54:09 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -14,6 +14,7 @@ import datetime
 # Required for up arrow returns
 import readline
 import os, sys
+import subprocess
 
 title_text = "".join(sys.argv[1].split())
 
@@ -71,6 +72,12 @@ while True:
 
     
 # Check if input given
-if len(note_text) > 1:    
+if len(note_text) > 1:
     with open(f_name, "w") as f:
         f.write("".join(note_text))
+
+# run the aspell command on the text file
+#result = subprocess.run(['aspell', '-c', f_name], capture_output=True, text=True)
+result = subprocess.run(['aspell', '-c', f_name])
+
+print("\n\nSpell check complete!")
