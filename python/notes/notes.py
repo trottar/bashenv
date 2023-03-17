@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-17 13:54:09 trottar"
+# Time-stamp: "2023-03-17 13:55:35 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -26,7 +26,6 @@ date_string = now.strftime("%Y-%m-%d")
 home_dir = os.path.expanduser("~")
 
 f_name = f"{home_dir}/Documents/Notes/note_{title_text}_{date_string}.org"
-
 
 note_text = [f'''
 #+OPTIONS: ^:nil
@@ -59,6 +58,7 @@ while True:
         last_user_input = user_inp
 
     if user_inp[0:3] == "bye" or user_inp[0:4] == "exit":
+        print("\n\033[36m","-"*50,"\033[0m\n")
         break
 
     if "* " in user_inp:
