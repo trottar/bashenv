@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-17 13:55:35 trottar"
+# Time-stamp: "2023-03-23 17:14:36 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -45,10 +45,11 @@ print(f"\n\n\033[36mNotes from {title_text} meeting ({date_string})\033[0m\n\n")
 
 while True:
 
-    #user_inp =  input('\033[36m->\033[0m ')
     print("\n\033[36m","-"*50,"\033[0m\n")
+    #user_inp =  input('\033[36m->\033[0m ')
+    user_inp = input()
     # Read a very long input from the user
-    user_inp = sys.stdin.readline().strip()
+    #user_inp = sys.stdin.readline().strip()
 
     # Returns previous prompt if up arrow is pressed
     if user_inp == "\033[A":
@@ -60,10 +61,20 @@ while True:
     if user_inp[0:3] == "bye" or user_inp[0:4] == "exit":
         print("\n\033[36m","-"*50,"\033[0m\n")
         break
-
+    if user_inp == "":
+        continue
+    if user_inp[0:6] == "delete":
+        pop_ele = note_text.pop()
+        print(f"\n\033[36m{pop_ele} deleted...\033[0m\n")
+        continue
+    if user_inp[0:7] == "summary":
+        for bullet in note_text:
+            print(f"\n\033[36m{bullet}\033[0m\n")
+        continue
+    
     if "* " in user_inp:
         new_bullet = f"*{user_inp}\n"
-    if "- " in user_inp:
+    elif "- " in user_inp:
         new_bullet = f"{user_inp}\n"
     else:
         new_bullet = f"* {user_inp}\n"
