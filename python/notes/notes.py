@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-03-23 17:14:36 trottar"
+# Time-stamp: "2023-04-14 17:17:34 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -27,8 +27,9 @@ home_dir = os.path.expanduser("~")
 
 f_name = f"{home_dir}/Documents/Notes/note_{title_text}_{date_string}.org"
 
+# toc:nil (ignore table of contents), H:0 (ignore underlines in *.txt), num:nil (ignore section numbers in *.txt)
 note_text = [f'''
-#+OPTIONS: ^:nil
+#+OPTIONS: ^:nil toc:nil H:0 num:nil
 #+TITLE: Notes from {title_text} meeting ({date_string})
 #+AUTHOR: Richard L. Trotta III
 #+EMAIL: trotta@cua.edu
