@@ -5,6 +5,10 @@ setenv LS_COLORS "di=1;36:fi=01:ex=92:ln=7;106:or=31:*.png=33:*.jpg=33:*.pdf=97"
 # Run bash profile
 source ~/.bash_profile
 
+# Add mimic to path
+setenv PATH "~/Programs/mimic/:$PATH"
+setenv PATH "~/bin/mimic3.sh:$PATH"
+
 # Defined file locations
 setenv ORG $HOME/ResearchNP/org_file
 
@@ -15,6 +19,8 @@ setenv kaonlt $HOME/Analysis/hallc_replay_lt
 setenv ROOTFILES $HOME/ResearchNP/ROOTfiles
 
 setenv PROGRAMS $HOME/Programs/my_programs
+
+setenv scratch $HOME/scratch
 
 setenv ext_hd "/media/trottar/Backup*Plus/"
 
@@ -53,20 +59,26 @@ alias       chrome  'google-chrome \!:1'
 alias       git-all  'find ~/ -name ".git"'
 alias       pyIndent 'sudo autopep8 -i \!:1'
 alias       jnb      'jupyter notebook'
-alias       jgrab    'sftp trottar@ftp.jlab.org'
+alias       jgrab    'echo "Grabbing all files from scratch";rsync -av ifarm:/scratch/trottar/ .'
+alias       pc_grab  'echo "Grabbing all files from PC";rsync -av PC:~/scratch/ .'
 alias       chat     '$HOME/bin/chat.sh \!:1'
 alias       chatgui  '$HOME/bin/chat.sh -g \!:1'
 alias       note     '$HOME/bin/notes.sh \!:1'
+alias       voice    '$HOME/Programs/mimic/mimic -t \!:1'
 
 alias word libreoffice 
 alias snapshot shutter
 
 #alias barrier 'snap run barrier' # barrier (through snap), for keyboard/mouse sharing
 
+alias dir_size 'du -h --max-depth=1 | sort -rh'
+alias sizecheck 'sudo find . -type f -size \!:1 -ls'
 alias slides 'jupyter nbconvert *.ipynb --to slides --post serve'
 alias battery 'upower -i /org/freedesktop/UPower/devices/battery_BAT0'
 alias reset 'source ~/.cshrc;cl'
-alias jlab 'set-title Jlab; ssh -X -Y -J trottar@scilogin.jlab.org ifarm'
+alias jlab 'set-title Jlab;ssh -X -Y ifarm'
+alias jexit 'ssh -O exit ifarm'
+alias pc_connect 'set-title PC; ssh -X -Y PC'
 alias backup 'gksu deja-dup-prefences'
 alias vncstart 'vncserver -geometry 1200x1000 :7'
 alias vnckill 'vncserver -kill :7'
@@ -82,7 +94,7 @@ alias cpu-info "inxi -Fxzd"
 # alias root2py "cd $HOME/bin/;sh root2py.sh \!:1;"
 alias ROOT2PY "$HOME/bin/root2py.sh"
 # alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
-alias load "gnome-terminal --geometry=81x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2;firefox &;auto_mail.sh"
+alias load "gnome-terminal --geometry=51x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2;firefox &"
 alias memleak "valgrind --tool=memcheck --leak-check=yes \!:1"
 # alias rootleak "valgrind --leak-check=full --show-leak-kinds=all --tool=memcheck --track-origins=yes --suppressions=$ROOTSYS/etc/valgrind-root.supp root.exe -l -b -q \!:1"
 alias pdf-shrink '~/Programs/pdfsizeopt/pdfsizeopt \!:1 \!:2'
@@ -94,9 +106,10 @@ alias update_calendar "sh $ORG/google_calendar/update_calendar.sh"
 alias email "sh $PROGRAMS/google_email/send_gmail.sh"
 alias clion "sh ~/Programs/clion-*/bin/clion.sh"
 alias replace "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
-alias search "grep -rn '\!:1' *"
+alias search 'grep -rn "\!:1" *'
 alias git-check "bash $HOME/bin/gitcheck.sh"
 alias starfinder "cd $PROGRAMS/starfinder/src; python3.8 main.py"
+alias spellcheck 'aspell check'
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
