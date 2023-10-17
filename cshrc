@@ -14,7 +14,7 @@ setenv PATH /usr/local/bin:/usr/bin:/bin
 setenv PATH "~/Programs/mimic/:$PATH"
 
 # Adds custom bin to path
-setenv PATH "~/bin/:$PATH"
+setenv PATH ~/bin:$PATH
 
 # Adds used programs to path
 setenv PATH "~/Programs/:$PATH"
@@ -91,11 +91,11 @@ alias       pc_connect '       set-title PC; ssh -X -Y PC'
 alias       backup            'gksu deja-dup-prefences'
 alias       vncstart          'vncserver -geometry 1200x1000 :7'
 alias       vnckill           'vncserver -kill :7'
-alias       help              'source help.csh'
-alias       ipconfig          "source findHost.csh"
-alias       set-title         "source nameTerm.csh"
+alias       help              alias
+alias       ipconfig          "hostname | tr -d '\n';echo -n "@";hostname -I"
+alias       set-title         'echo -en "\033]0;$1\a"'
 alias       dict              "run_physics_dict.sh \!:1"
-alias       server            "source run_server.csh"
+alias       server            'eval "sudo service ssh \!:1"'
 alias       send              "copyFiles.sh"
 alias       cpu-info          "inxi -Fxzd"
 alias       ROOT2PY           "root2py.sh"
