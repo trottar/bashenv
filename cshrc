@@ -43,31 +43,31 @@ setenv youtube_api $YOUTUBE_API
 #####
 # Define your aliases.
 #####
-alias       h       history
-alias       d       dirs
-alias       pd      pushd
-alias       pd2     pushd +2
-alias       po      popd
-alias       m       more
-alias       rm      'rm -i'
-alias       ram     htop
-alias       cl      'clear;ls'
-alias       em      emacs
-alias       sem     'sudo emacs'
-alias       rem     'emacs \!:1 --funcall toggle-read-only'
-alias       nem     'emacs -nw'
-alias       ls      'ls -F'
-alias       la      'ls -la'
-alias       ls      ls --color=always
-alias       root    'root -l'
-alias       pip     'sudo python -m pip'
-alias       pip3    'sudo python3 -m pip'
-alias       paint   'sudo inkscape'
-alias       install 'sudo apt-get install'
-alias       calc    'genius'
-alias       remote  'teamviewer'
-alias       docker  'sudo docker'
-alias       chrome  'google-chrome \!:1'
+alias       h        history
+alias       d        dirs
+alias       pd       pushd
+alias       pd2      pushd +2
+alias       po       popd
+alias       m        more
+alias       rm       'rm -i'
+alias       ram      htop
+alias       cl       'clear;ls'
+alias       em       emacs
+alias       sem      'sudo emacs'
+alias       rem      'emacs \!:1 --funcall toggle-read-only'
+alias       nem      'emacs -nw'
+alias       ls       'ls -F'
+alias       la       'ls -la'
+alias       ls       ls --color=always
+alias       root     'root -l'
+alias       pip      'sudo python -m pip'
+alias       pip3     'sudo python3 -m pip'
+alias       paint    'sudo inkscape'
+alias       install  'sudo apt-get install'
+alias       calc     'genius'
+alias       remote   'teamviewer'
+alias       docker   'sudo docker'
+alias       chrome   'google-chrome \!:1'
 alias       git-all  'find ~/ -name ".git"'
 alias       pyIndent 'sudo autopep8 -i \!:1'
 alias       jnb      'jupyter notebook'
@@ -77,9 +77,8 @@ alias       chat     'chat.sh \!:1'
 alias       chatgui  'chat.sh -g \!:1'
 alias       note     'notes.sh \!:1'
 alias       voice    '$HOME/Programs/mimic/mimic -t \!:1'
-
-alias word 'sudo libreoffice'
-alias snapshot shutter
+alias       word     'sudo libreoffice'
+alias       snapshot shutter
 
 #alias barrier 'snap run barrier' # barrier (through snap), for keyboard/mouse sharing
 

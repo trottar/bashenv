@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/tcsh
 
 # start,restart,stop
 eval "sudo service ssh $1"
