@@ -1,0 +1,47 @@
+ > BANKS 	 version:  1.4
+ > CCDB 	 version:  1.06.02
+ > CLHEP 	 version:  2.3.4.5
+ > EVIO 	 version:  5.1
+ > GEANT4 	 version:  4.10.03.p02
+ > GEMC 	 version:  2.6
+ > JANA 	 version:  0.7.7p1
+ > MLIBRARY 	 version:  1.2
+ > MYSQL 	 installed in  /opt/jlab_software/2.2/Linux__LinuxMint19.3-x86_64-gcc7/mysql/lib
+ > QT   	 version:  5.14.0
+ > ROOT 	 version:  6.18.04
+ > SCONS 	 version:  1.6
+ > XERCESC 	 version:  3.2.0
+
+
+~~~~~~~~~~~~~~~~~~~~
+Tue Oct 17 13:30:02 EDT 2023
+New terminal is open
+~~~~~~~~~~~~~~~~~~~~
+
+
+ > BANKS 	 version:  1.4
+ > CCDB 	 version:  1.06.02
+ > CLHEP 	 version:  2.3.4.5
+ > EVIO 	 version:  5.1
+ > GEANT4 	 version:  4.10.03.p02
+ > GEMC 	 version:  2.6
+ > JANA 	 version:  0.7.7p1
+ > MLIBRARY 	 version:  1.2
+ > MYSQL 	 installed in  /opt/jlab_software/2.2/Linux__LinuxMint19.3-x86_64-gcc7/mysql/lib
+ > QT   	 version:  5.14.0
+ > ROOT 	 version:  6.18.04
+ > SCONS 	 version:  1.6
+ > XERCESC 	 version:  3.2.0
+
+
+~~~~~~~~~~~~~~~~~~~~
+Tue Oct 17 13:30:04 EDT 2023
+New terminal is open
+~~~~~~~~~~~~~~~~~~~~
+
+
+Permission denied, please try again.
+Permission denied, please try again.
+trottar@192.168.0.183: Permission denied (publickey,password).
+rsync: connection unexpectedly closed (0 bytes received so far) [Receiver]
+rsync error: unexplained error (code 255) at io.c(235) [Receiver=3.1.2]

@@ -5,25 +5,37 @@ setenv LS_COLORS "di=1;36:fi=01:ex=92:ln=7;106:or=31:*.png=33:*.jpg=33:*.pdf=97"
 # Run bash profile
 source ~/.bash_profile
 
-# Add mimic to path
+# Use unsetenv to unset any enviroment variables
+
+# Define local path
+setenv PATH /usr/local/bin:/usr/bin:/bin
+
+# Add mimic to path (mimic is text to speech)
 setenv PATH "~/Programs/mimic/:$PATH"
-setenv PATH "~/bin/mimic3.sh:$PATH"
+
+# Adds custom bin to path
+setenv PATH "~/bin/:$PATH"
+
+# Adds used programs to path
+setenv PATH "~/Programs/:$PATH"
+setenv PATH "~/Programs/pdfsizeopt:$PATH"
+setenv PATH "~/Programs/clion-2019.3.4/bin/:$PATH"
+
+# Adds custom programs to path
+setenv PATH "~/Programs/my_programs/:$PATH"
+setenv PATH "~/Programs/my_programs/google_email/:$PATH"
+setenv PATH "~/Programs/my_programs/quick_plot/:$PATH"
 
 # Defined file locations
-setenv ORG $HOME/ResearchNP/org_file
-
 setenv hcana $HOME/Analysis/hcana
-
 setenv kaonlt $HOME/Analysis/hallc_replay_lt
-
 setenv ROOTFILES $HOME/ResearchNP/ROOTfiles
-
 setenv PROGRAMS $HOME/Programs/my_programs
-
 setenv scratch $HOME/scratch
-
+# External HD
 setenv ext_hd "/media/trottar/Backup*Plus/"
 
+# Requried for customsearch
 setenv youtube_api $YOUTUBE_API
 
 #######################################################################################################
@@ -61,12 +73,12 @@ alias       pyIndent 'sudo autopep8 -i \!:1'
 alias       jnb      'jupyter notebook'
 alias       jgrab    'echo "Grabbing all files from scratch";rsync -av ifarm:/scratch/trottar/ .'
 alias       pc_grab  'echo "Grabbing all files from PC";rsync -av PC:~/scratch/ .'
-alias       chat     '$HOME/bin/chat.sh \!:1'
-alias       chatgui  '$HOME/bin/chat.sh -g \!:1'
-alias       note     '$HOME/bin/notes.sh \!:1'
+alias       chat     'chat.sh \!:1'
+alias       chatgui  'chat.sh -g \!:1'
+alias       note     'notes.sh \!:1'
 alias       voice    '$HOME/Programs/mimic/mimic -t \!:1'
 
-alias word libreoffice 
+alias word 'sudo libreoffice'
 alias snapshot shutter
 
 #alias barrier 'snap run barrier' # barrier (through snap), for keyboard/mouse sharing
@@ -82,32 +94,28 @@ alias pc_connect 'set-title PC; ssh -X -Y PC'
 alias backup 'gksu deja-dup-prefences'
 alias vncstart 'vncserver -geometry 1200x1000 :7'
 alias vnckill 'vncserver -kill :7'
-alias help 'source $HOME/bin/help.csh'
-alias ipconfig "source $HOME/bin/findHost.csh"
-alias set-title "source $HOME/bin/nameTerm.csh"
-alias dict "$HOME/bin/physics_dict/run_physics_dict.sh \!:1"
-alias howto "evince $ORG/commands.pdf"
-alias server "source $HOME/bin/run_server.csh"
-alias send "sh $HOME/bin/copyFiles.sh"
+alias help 'source help.csh'
+alias ipconfig "source findHost.csh"
+alias set-title "source nameTerm.csh"
+alias dict "physics_dict/run_physics_dict.sh \!:1"
+alias server "source run_server.csh"
+alias send "copyFiles.sh"
 #alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh"
 alias cpu-info "inxi -Fxzd"
-# alias root2py "cd $HOME/bin/;sh root2py.sh \!:1;"
-alias ROOT2PY "$HOME/bin/root2py.sh"
-# alias load "gnome-terminal --tab --tab-with-profile="trottar" --working-directory=$HOME;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/ResearchNP/JLEIC/Trotta-EIC;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=81x260-0+0 --tab-with-profile="trottar" --working-directory=$HOME/Analysis/hallc_replay_kaonlt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2"
-alias load "gnome-terminal --geometry=51x260-0+0 --working-directory=$HOME;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar;wmctrl -r eic_SF -t 3;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT;wmctrl -r hallc_kaonlt  -t 2;firefox &"
-alias memleak "valgrind --tool=memcheck --leak-check=yes \!:1"
+# alias root2py "cd ;root2py.sh \!:1;"
+alias ROOT2PY "root2py.sh"
+# Creates terminals of interest and moves them to proper workspaces
+alias load "gnome-terminal --geometry=51x260-0+0 --working-directory=$HOME --title=Home;xdotool search --name 'EIC' windowactivate;xdotool set_desktop --relative --desktop 3;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar --title=EIC;xdotool search --name 'lt_analysis' windowactivate;xdotool set_desktop --relative --desktop 2;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT --title=UTIL_KAONLT --command 'gnome-terminal --tab  --working-directory=$HOME/Analysis/hallc_replay_lt/lt_analysis --title=lt_analysis --tab  --working-directory=$HOME/Analysis/hallc_replay_lt/lt_analysis/src --title=lt_analysis/src --tab --working-directory=$HOME/Analysis/simc_gfortran --title=simc_gfortran --tab --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT --title=UTIL_KAONLT'"
 # alias rootleak "valgrind --leak-check=full --show-leak-kinds=all --tool=memcheck --track-origins=yes --suppressions=$ROOTSYS/etc/valgrind-root.supp root.exe -l -b -q \!:1"
-alias pdf-shrink '~/Programs/pdfsizeopt/pdfsizeopt \!:1 \!:2'
-alias updatepip 'sh ~/bin/upgradePython.sh'
-alias anki '~/Programs/anki-2.1.15-linux-amd64/bin/anki'
-alias share_jlab_docker 'sh ~/bin/shareDocker.sh \!:1'
-alias plot "$HOME/bin/quick_plot/plotRoot.sh"
-alias update_calendar "sh $ORG/google_calendar/update_calendar.sh"
-alias email "sh $PROGRAMS/google_email/send_gmail.sh"
-alias clion "sh ~/Programs/clion-*/bin/clion.sh"
+alias pdf-shrink 'pdfsizeopt \!:1 \!:2'
+alias updatepip 'upgradePython.sh'
+alias share_jlab_docker 'shareDocker.sh \!:1'
+alias plot "plotRoot.sh"
+alias email "send_gmail.sh"
+alias clion "clion.sh"
 alias replace "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
 alias search 'grep -rn "\!:1" *'
-alias git-check "bash $HOME/bin/gitcheck.sh"
+alias git-check "bash gitcheck.sh"
 alias starfinder "cd $PROGRAMS/starfinder/src; python3.8 main.py"
 alias spellcheck 'aspell check'
 
