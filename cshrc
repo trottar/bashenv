@@ -18,7 +18,8 @@ setenv PATH "~/bin/:$PATH"
 
 # Adds used programs to path
 setenv PATH "~/Programs/:$PATH"
-setenv PATH "~/Programs/pdfsizeopt:$PATH"
+setenv PATH "~/Programs/physics_dict/:$PATH"
+setenv PATH "~/Programs/pdfsizeopt/:$PATH"
 setenv PATH "~/Programs/clion-2019.3.4/bin/:$PATH"
 
 # Adds custom programs to path
@@ -43,80 +44,79 @@ setenv youtube_api $YOUTUBE_API
 #####
 # Define your aliases.
 #####
-alias       h        history
-alias       d        dirs
-alias       pd       pushd
-alias       pd2      pushd +2
-alias       po       popd
-alias       m        more
-alias       rm       'rm -i'
-alias       ram      htop
-alias       cl       'clear;ls'
-alias       em       emacs
-alias       sem      'sudo emacs'
-alias       rem      'emacs \!:1 --funcall toggle-read-only'
-alias       nem      'emacs -nw'
-alias       ls       'ls -F'
-alias       la       'ls -la'
-alias       ls       ls --color=always
-alias       root     'root -l'
-alias       pip      'sudo python -m pip'
-alias       pip3     'sudo python3 -m pip'
-alias       paint    'sudo inkscape'
-alias       install  'sudo apt-get install'
-alias       calc     'genius'
-alias       remote   'teamviewer'
-alias       docker   'sudo docker'
-alias       chrome   'google-chrome \!:1'
-alias       git-all  'find ~/ -name ".git"'
-alias       pyIndent 'sudo autopep8 -i \!:1'
-alias       jnb      'jupyter notebook'
-alias       jgrab    'echo "Grabbing all files from scratch";rsync -av ifarm:/scratch/trottar/ .'
-alias       pc_grab  'echo "Grabbing all files from PC";rsync -av PC:~/scratch/ .'
-alias       chat     'chat.sh \!:1'
-alias       chatgui  'chat.sh -g \!:1'
-alias       note     'notes.sh \!:1'
-alias       voice    '$HOME/Programs/mimic/mimic -t \!:1'
-alias       word     'sudo libreoffice'
-alias       snapshot shutter
+alias       h                 history
+alias       d                 dirs
+alias       pd                pushd
+alias       pd2               pushd +2
+alias       po                popd
+alias       m                 more
+alias       rm                'rm -i'
+alias       ram               htop
+alias       cl                'clear;ls'
+alias       em                emacs
+alias       sem               'sudo emacs'
+alias       rem               'emacs \!:1 --funcall toggle-read-only'
+alias       nem               'emacs -nw'
+alias       ls                'ls -F'
+alias       la                'ls -la'
+alias       ls                ls --color=always
+alias       root              'root -l'
+alias       pip               'sudo python -m pip'
+alias       pip3              'sudo python3 -m pip'
+alias       paint             'sudo inkscape'
+alias       install           'sudo apt-get install'
+alias       calc              'genius'
+alias       remote            'teamviewer'
+alias       docker            'sudo docker'
+alias       chrome            'google-chrome \!:1'
+alias       git-all           'find ~/ -name ".git"'
+alias       pyIndent          'sudo autopep8 -i \!:1'
+alias       jnb               'jupyter notebook'
+alias       jgrab             'echo "Grabbing all files from scratch";rsync -av ifarm:/scratch/trottar/ .'
+alias       pc_grab           'echo "Grabbing all files from PC";rsync -av PC:~/scratch/ .'
+alias       chat              'chat.sh \!:1'
+alias       chatgui           'chat.sh -g \!:1'
+alias       note              'notes.sh \!:1'
+alias       voice             '$HOME/Programs/mimic/mimic -t \!:1'
+alias       word              'sudo libreoffice'
+alias       snapshot          shutter
+alias       dir_ size         'du -h --max-depth=1 | sort -rh'
+alias       sizecheck         'sudo find . -type f -size \!:1 -ls'
+alias       slides            'jupyter nbconvert *.ipynb --to slides --post serve'
+alias       battery           'upower -i /org/freedesktop/UPower/devices/battery_BAT0'
+alias       reset             'source ~/.cshrc;cl'
+alias       jlab              'set-title Jlab;ssh -X -Y ifarm'
+alias       jexit             'ssh -O exit ifarm'
+alias       pc_connect '       set-title PC; ssh -X -Y PC'
+alias       backup            'gksu deja-dup-prefences'
+alias       vncstart          'vncserver -geometry 1200x1000 :7'
+alias       vnckill           'vncserver -kill :7'
+alias       help              'source help.csh'
+alias       ipconfig          "source findHost.csh"
+alias       set-title         "source nameTerm.csh"
+alias       dict              "run_physics_dict.sh \!:1"
+alias       server            "source run_server.csh"
+alias       send              "copyFiles.sh"
+alias       cpu-info          "inxi -Fxzd"
+alias       ROOT2PY           "root2py.sh"
+alias       pdf-shrink        'pdfsizeopt \!:1 \!:2'
+alias       updatepip         'upgradePython.sh'
+alias       share_jlab_docker 'shareDocker.sh \!:1'
+alias       plot              "plotRoot.sh"
+alias       email             "send_gmail.sh"
+alias       clion             "clion.sh"
+alias       replace           "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
+alias       search            'grep -rn "\!:1" *'
+alias       git-check         "bash gitcheck.sh"
+alias       starfinder        "cd $PROGRAMS/starfinder/src; python3.8 main.py"
+alias       spellcheck        'aspell check'
 
-#alias barrier 'snap run barrier' # barrier (through snap), for keyboard/mouse sharing
-
-alias dir_size 'du -h --max-depth=1 | sort -rh'
-alias sizecheck 'sudo find . -type f -size \!:1 -ls'
-alias slides 'jupyter nbconvert *.ipynb --to slides --post serve'
-alias battery 'upower -i /org/freedesktop/UPower/devices/battery_BAT0'
-alias reset 'source ~/.cshrc;cl'
-alias jlab 'set-title Jlab;ssh -X -Y ifarm'
-alias jexit 'ssh -O exit ifarm'
-alias pc_connect 'set-title PC; ssh -X -Y PC'
-alias backup 'gksu deja-dup-prefences'
-alias vncstart 'vncserver -geometry 1200x1000 :7'
-alias vnckill 'vncserver -kill :7'
-alias help 'source help.csh'
-alias ipconfig "source findHost.csh"
-alias set-title "source nameTerm.csh"
-alias dict "physics_dict/run_physics_dict.sh \!:1"
-alias server "source run_server.csh"
-alias send "copyFiles.sh"
-#alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh"
-alias cpu-info "inxi -Fxzd"
-# alias root2py "cd ;root2py.sh \!:1;"
-alias ROOT2PY "root2py.sh"
 # Creates terminals of interest and moves them to proper workspaces
 alias load "gnome-terminal --geometry=51x260-0+0 --working-directory=$HOME --title=Home;xdotool search --name 'EIC' windowactivate;xdotool set_desktop --relative --desktop 3;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar --title=EIC;xdotool search --name 'lt_analysis' windowactivate;xdotool set_desktop --relative --desktop 2;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT --title=UTIL_KAONLT --command 'gnome-terminal --tab  --working-directory=$HOME/Analysis/lt_analysis --title=lt_analysis --tab  --working-directory=$HOME/Analysis/lt_analysis/src --title=lt_analysis/src --tab --working-directory=$HOME/Analysis/simc_gfortran --title=simc_gfortran --tab --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT --title=UTIL_KAONLT'"
+
+#alias go_analysis "cd $hcana;source setup.csh;cd $replay_kaonlt;source setup.csh"
 # alias rootleak "valgrind --leak-check=full --show-leak-kinds=all --tool=memcheck --track-origins=yes --suppressions=$ROOTSYS/etc/valgrind-root.supp root.exe -l -b -q \!:1"
-alias pdf-shrink 'pdfsizeopt \!:1 \!:2'
-alias updatepip 'upgradePython.sh'
-alias share_jlab_docker 'shareDocker.sh \!:1'
-alias plot "plotRoot.sh"
-alias email "send_gmail.sh"
-alias clion "clion.sh"
-alias replace "find . -type f -exec sed -i 's/\!:1/\!:2/g' {} +"
-alias search 'grep -rn "\!:1" *'
-alias git-check "bash gitcheck.sh"
-alias starfinder "cd $PROGRAMS/starfinder/src; python3.8 main.py"
-alias spellcheck 'aspell check'
+#alias barrier 'snap run barrier' # barrier (through snap), for keyboard/mouse sharing
 
 alias runplan-8.2 "evince $HOME/Documents/runplans/runplan_8p2gev.pdf"
 alias runplan-6.2 "evince $HOME/Documents/runplans/runplan_6p2gev.pdf"
