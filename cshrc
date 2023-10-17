@@ -18,7 +18,6 @@ setenv PATH "~/bin/:$PATH"
 
 # Adds used programs to path
 setenv PATH "~/Programs/:$PATH"
-setenv PATH "~/Programs/physics_dict/:$PATH"
 setenv PATH "~/Programs/pdfsizeopt/:$PATH"
 setenv PATH "~/Programs/clion-2019.3.4/bin/:$PATH"
 
@@ -26,6 +25,7 @@ setenv PATH "~/Programs/clion-2019.3.4/bin/:$PATH"
 setenv PATH "~/Programs/my_programs/:$PATH"
 setenv PATH "~/Programs/my_programs/google_email/:$PATH"
 setenv PATH "~/Programs/my_programs/quick_plot/:$PATH"
+setenv PATH "~/Programs/my_programs/physics_dict/:$PATH"
 
 # Defined file locations
 setenv hcana $HOME/Analysis/hcana
