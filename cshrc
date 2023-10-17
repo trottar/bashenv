@@ -93,7 +93,7 @@ alias       vncstart          'vncserver -geometry 1200x1000 :7'
 alias       vnckill           'vncserver -kill :7'
 alias       help              alias
 alias       ipconfig          "hostname | tr -d '\n';echo -n "@";hostname -I"
-alias       set-title         'echo -en "\033]0;$1\a"'
+alias       set-title         'echo -en "\033]0;\!:1\a"'
 alias       dict              "run_physics_dict.sh \!:1"
 alias       server            'eval "sudo service ssh \!:1"'
 alias       send              "copyFiles.sh"
