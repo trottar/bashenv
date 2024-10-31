@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-10-13 15:31:01 trottar"
+# Time-stamp: "2024-04-11 14:20:54 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -148,8 +148,8 @@ def mail():
     msg = message("Daily Article | {0} at {1} @Articles #daily update".format(current_day,current_time), "Article of the Day\n{1}\n{0}\n\n\narXiv RSS...\n{2}\n{0}".format('-'*70,art_body,arxiv_body))
   
     # Provide some data to the sendmail function!
-    smtp.sendmail(from_addr=os.environ.get('PY_EMAIL_CUA'),
-                  to_addrs=[os.environ.get('PY_EMAIL_CUA'), os.environ.get('PY_EMAIL_EVERNOTE')], msg=msg.as_string())
+    smtp.sendmail(from_addr=os.environ.get('PY_EMAIL_PROF'),
+                  to_addrs=[os.environ.get('PY_EMAIL_PROF'), os.environ.get('PY_EMAIL_EVERNOTE')], msg=msg.as_string())
     
     # Finally, don't forget to close the connection
     smtp.quit()

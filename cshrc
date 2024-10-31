@@ -27,12 +27,16 @@ setenv PATH "~/Programs/my_programs/google_email/:$PATH"
 setenv PATH "~/Programs/my_programs/quick_plot/:$PATH"
 setenv PATH "~/Programs/my_programs/physics_dict/:$PATH"
 
+# Conda
+setenv PATH "/home/trottar/anaconda3/bin:$PATH"
+
 # Defined file locations
 setenv hcana $HOME/Analysis/hcana
 setenv kaonlt $HOME/Analysis/hallc_replay_lt
 setenv ROOTFILES $HOME/ResearchNP/ROOTfiles
 setenv PROGRAMS $HOME/Programs/my_programs
 setenv scratch $HOME/scratch
+setenv uva $HOME/Analysis/uva
 # External HD
 setenv ext_hd "/media/trottar/Backup*Plus/"
 
@@ -60,6 +64,7 @@ alias       nem               'emacs -nw'
 alias       ls                'ls -F'
 alias       la                'ls -la'
 alias       ls                ls --color=always
+alias       dir_ls            'ls -l \!:1| grep "^-" | wc -l'
 alias       root              'root -l'
 alias       pip               'sudo python -m pip'
 alias       pip3              'sudo python3 -m pip'
@@ -73,6 +78,7 @@ alias       git-all           'find ~/ -name ".git"'
 alias       pyIndent          'sudo autopep8 -i \!:1'
 alias       jnb               'jupyter notebook'
 alias       jgrab             'echo "Grabbing all files from scratch";rsync -av ifarm:/scratch/trottar/ .'
+alias       jput              'echo "Putting all files from scratch to farm";rsync -av /home/trottar/scratch/ ifarm:/scratch/trottar/'
 alias       pc_grab           'echo "Grabbing all files from PC";rsync -av PC:~/scratch/ .'
 alias       chat              'chat.sh \!:1'
 alias       chatgui           'chat.sh -g \!:1'
@@ -80,18 +86,19 @@ alias       note              'notes.sh \!:1'
 alias       voice             '$HOME/Programs/mimic/mimic -t \!:1'
 alias       word              'sudo libreoffice'
 alias       snapshot          shutter
-alias       dir_ size         'du -h --max-depth=1 | sort -rh'
+alias       dir_size          'du -h --max-depth=1 | sort -rh'
 alias       sizecheck         'sudo find . -type f -size \!:1 -ls'
 alias       slides            'jupyter nbconvert *.ipynb --to slides --post serve'
 alias       battery           'upower -i /org/freedesktop/UPower/devices/battery_BAT0'
 alias       reset             'source ~/.cshrc;cl'
+#alias       jlab              'set-title Jlab;ssh -X -Y ifarm'
 alias       jlab              'set-title Jlab;ssh -X -Y ifarm'
-alias       jexit             'ssh -O exit ifarm'
-alias       pc_connect '       set-title PC; ssh -X -Y PC'
+alias       jexit             'rm -f ~/.ssh/cm/*.sock;ssh -O exit ifarm'
+alias       pc_connect        'set-title PC; ssh -X -Y PC'
 alias       backup            'gksu deja-dup-prefences'
 alias       vncstart          'vncserver -geometry 1200x1000 :7'
 alias       vnckill           'vncserver -kill :7'
-alias       help              alias
+alias       help               alias
 alias       ipconfig          "hostname | tr -d '\n';echo -n "@";hostname -I"
 alias       set-title         'echo -en "\033]0;\!:1\a"'
 alias       dict              "run_physics_dict.sh \!:1"
@@ -110,6 +117,7 @@ alias       search            'grep -rn "\!:1" *'
 alias       git-check         "bash gitcheck.sh"
 alias       starfinder        "cd $PROGRAMS/starfinder/src; python3.8 main.py"
 alias       spellcheck        'aspell check'
+alias       globus            'cd ~/Programs/globusconnectpersonal-3.2.5;./globusconnect'
 
 # Creates terminals of interest and moves them to proper workspaces
 alias load "gnome-terminal --geometry=51x260-0+0 --working-directory=$HOME --title=Home;xdotool search --name 'EIC' windowactivate;xdotool set_desktop --relative --desktop 3;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/ResearchNP/JLEIC/USERS/trottar --title=EIC;xdotool search --name 'lt_analysis' windowactivate;xdotool set_desktop --relative --desktop 2;gnome-terminal --geometry=51x260-0+0  --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT --title=UTIL_KAONLT --command 'gnome-terminal --tab  --working-directory=$HOME/Analysis/lt_analysis --title=lt_analysis --tab  --working-directory=$HOME/Analysis/lt_analysis/src --title=lt_analysis/src --tab --working-directory=$HOME/Analysis/simc_gfortran --title=simc_gfortran --tab --working-directory=$HOME/Analysis/hallc_replay_lt/UTIL_KAONLT --title=UTIL_KAONLT'"
@@ -147,5 +155,4 @@ eval "date"
 echo "New terminal is open"
 echo "~~~~~~~~~~~~~~~~~~~~"
 echo
-echo
-    
+echo   

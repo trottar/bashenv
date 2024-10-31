@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2023-09-11 22:05:49 trottar"
+# Time-stamp: "2023-10-19 13:47:50 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -16,7 +16,10 @@ import readline
 import os, sys
 import subprocess
 
-title_text = "".join(sys.argv[1].split())
+title_fname = "".join(sys.argv[1].split())
+title_text = title_fname.replace("_"," ")
+title_text = ' '.join(word.capitalize() for word in title_text.split()) # Capitalize all words 
+
 
 # Get the current date and time
 now = datetime.datetime.now()
@@ -26,12 +29,12 @@ formatted_date = now.strftime("%Y %b %d")
 
 home_dir = os.path.expanduser("~")
 
-f_name = f"{home_dir}/Documents/Notes/note_{title_text}_{date_string}.org"
+f_name = f"{home_dir}/Documents/Notes/note_{title_fname}_{date_string}.org"
 
 # toc:nil (ignore table of contents), H:0 (ignore underlines in *.txt), num:nil (ignore section numbers in *.txt)
 note_text = [f'''
 #+OPTIONS: ^:nil toc:nil H:0 num:nil
-#+TITLE: {formatted_date} (Notes from {title_text} meeting)
+#+TITLE: {formatted_date} (Notes from {title_text} Meeting)
 #+AUTHOR: Richard L. Trotta III
 #+EMAIL: trotta@cua.edu
 #+LATEX_CLASS: book

@@ -14,7 +14,7 @@
 
 
 ~~~~~~~~~~~~~~~~~~~~
-Tue Oct 17 13:30:02 EDT 2023
+Thu Oct 31 13:30:02 EDT 2024
 New terminal is open
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -35,13 +35,11 @@ New terminal is open
 
 
 ~~~~~~~~~~~~~~~~~~~~
-Tue Oct 17 13:30:04 EDT 2023
+Thu Oct 31 13:30:04 EDT 2024
 New terminal is open
 ~~~~~~~~~~~~~~~~~~~~
 
 
-Permission denied, please try again.
-Permission denied, please try again.
-trottar@192.168.0.183: Permission denied (publickey,password).
+ssh: connect to host 192.168.0.183 port 22: Connection timed out
 rsync: connection unexpectedly closed (0 bytes received so far) [Receiver]
 rsync error: unexplained error (code 255) at io.c(235) [Receiver=3.1.2]
