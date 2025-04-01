@@ -91,7 +91,6 @@ alias       sizecheck         'sudo find . -type f -size \!:1 -ls'
 alias       slides            'jupyter nbconvert *.ipynb --to slides --post serve'
 alias       battery           'upower -i /org/freedesktop/UPower/devices/battery_BAT0'
 alias       reset             'source ~/.cshrc;cl'
-#alias       jlab              'set-title Jlab;ssh -X -Y ifarm'
 alias       jlab              'set-title Jlab;ssh -X -Y ifarm'
 alias       jexit             'rm -f ~/.ssh/cm/*.sock;ssh -O exit ifarm'
 alias       pc_connect        'set-title PC; ssh -X -Y PC'
@@ -144,15 +143,17 @@ alias __git_current_branch 'git rev-parse --abbrev-ref HEAD >& /dev/null && echo
 # Set shell prompt
 alias precmd 'set prompt="\n%{\033[35m%}Branch-`__git_current_branch`\n%{\033[34m%}%B%m%b %B%{\033[1;36m%}%~%b%{\033[00m%}> "'
 
-# Assure workking jlab software
-setenv JLAB_ROOT /opt/jlab_software
-source $JLAB_ROOT/2.2/ce/jlab.csh  # default root 6.12.06, currently set to root 6.18.06
+if ($?prompt) then
+    # Assure workking jlab software
+    setenv JLAB_ROOT /opt/jlab_software
+    source $JLAB_ROOT/2.2/ce/jlab.csh  # default root 6.12.06, currently set to root 6.18.06
 
-echo
-echo
-echo "~~~~~~~~~~~~~~~~~~~~"
-eval "date"
-echo "New terminal is open"
-echo "~~~~~~~~~~~~~~~~~~~~"
-echo
-echo   
+    echo
+    echo
+    echo "~~~~~~~~~~~~~~~~~~~~"
+    eval "date"
+    echo "New terminal is open"
+    echo "~~~~~~~~~~~~~~~~~~~~"
+    echo
+    echo
+endif
